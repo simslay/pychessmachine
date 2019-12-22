@@ -1,12 +1,12 @@
 from pieces.piece import Piece
 
 class Knight(Piece):
-    alliance = None
-    position = None
+    color = None
+    x = None
+    y = None
     
-    def __init__(self, alliance, position):
-        self.alliance = alliance
-        self.position = position
+    def __init__(self, color):
+        self.color = color
     
     def __repr__(self):
-        return "N" if self.alliance == "Black" else "n"
+        return "N" if self.color == "Black" else "n"
