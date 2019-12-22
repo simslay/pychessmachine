@@ -1,13 +1,12 @@
 import os,sys
 import pygame
-from board.board import Board
-from board.state import State
+from game.game import Game
 
 piece_width = 80
 piece_height = 80
 window_width = 640
 window_height = 640
-state = State()
+game = Game()
 draggable_pieces = {}
 
 class DraggablePiece:
@@ -20,7 +19,7 @@ class DraggablePiece:
         self.yshiftbegin = -1
         self.click = False
         self.image = pygame.image.load(self.path)
-        self.image = pygame.transform.scale(self.image, (piece_width, piece_height))        
+        self.image = pygame.transform.scale(self.image, (piece_width, piece_height))
         screen.blit(self.image, (self.x, self.y))
     def update(self, screen):
         if self.click:
@@ -86,10 +85,62 @@ def get_draggable_pieces():
     draggable_bbishop2 = DraggablePiece(screen, "./images/200px-Chess_bdt45.svg.png", convert_x_y(5, 0))
     draggable_pieces["bbishop2"] = draggable_bbishop2
     
+    # knights
     draggable_wknigth1 = DraggablePiece(screen, "./images/200px-Chess_nlt45.svg.png", convert_x_y(1, 7))
     draggable_pieces["wknigth1"] = draggable_wknigth1
     draggable_wknigth2 = DraggablePiece(screen, "./images/200px-Chess_nlt45.svg.png", convert_x_y(6, 7))
     draggable_pieces["wknigth2"] = draggable_wknigth2
+    draggable_bknigth1 = DraggablePiece(screen, "./images/200px-Chess_ndt45.svg.png", convert_x_y(1, 0))
+    draggable_pieces["bknigth1"] = draggable_bknigth1
+    draggable_bknigth2 = DraggablePiece(screen, "./images/200px-Chess_ndt45.svg.png", convert_x_y(6, 0))
+    draggable_pieces["bknigth2"] = draggable_bknigth2
+    
+    # queens
+    draggable_wqueen = DraggablePiece(screen, "./images/200px-Chess_qlt45.svg.png", convert_x_y(3, 7))
+    draggable_pieces["wqueen"] = draggable_wqueen
+    draggable_bqueen = DraggablePiece(screen, "./images/200px-Chess_qdt45.svg.png", convert_x_y(3, 0))
+    draggable_pieces["bqueen"] = draggable_bqueen
+    
+    # kings
+    draggable_wking = DraggablePiece(screen, "./images/200px-Chess_klt45.svg.png", convert_x_y(4, 7))
+    draggable_pieces["wking"] = draggable_wking
+    draggable_bking = DraggablePiece(screen, "./images/200px-Chess_kdt45.svg.png", convert_x_y(4, 0))
+    draggable_pieces["bking"] = draggable_bking
+    
+    # pawns
+    draggable_wpawn1 = DraggablePiece(screen, "./images/200px-Chess_plt45.svg.png", convert_x_y(0, 6))
+    draggable_pieces["wpawn1"] = draggable_wpawn1
+    draggable_wpawn2 = DraggablePiece(screen, "./images/200px-Chess_plt45.svg.png", convert_x_y(1, 6))
+    draggable_pieces["wpawn2"] = draggable_wpawn2
+    draggable_wpawn3 = DraggablePiece(screen, "./images/200px-Chess_plt45.svg.png", convert_x_y(2, 6))
+    draggable_pieces["wpawn3"] = draggable_wpawn3
+    draggable_wpawn4 = DraggablePiece(screen, "./images/200px-Chess_plt45.svg.png", convert_x_y(3, 6))
+    draggable_pieces["wpawn4"] = draggable_wpawn4
+    draggable_wpawn5 = DraggablePiece(screen, "./images/200px-Chess_plt45.svg.png", convert_x_y(4, 6))
+    draggable_pieces["wpawn5"] = draggable_wpawn5
+    draggable_wpawn6 = DraggablePiece(screen, "./images/200px-Chess_plt45.svg.png", convert_x_y(5, 6))
+    draggable_pieces["wpawn6"] = draggable_wpawn6
+    draggable_wpawn7 = DraggablePiece(screen, "./images/200px-Chess_plt45.svg.png", convert_x_y(6, 6))
+    draggable_pieces["wpawn7"] = draggable_wpawn7
+    draggable_wpawn8 = DraggablePiece(screen, "./images/200px-Chess_plt45.svg.png", convert_x_y(7, 6))
+    draggable_pieces["wpawn8"] = draggable_wpawn8
+    
+    draggable_bpawn1 = DraggablePiece(screen, "./images/200px-Chess_pdt45.svg.png", convert_x_y(0, 1))
+    draggable_pieces["bpawn1"] = draggable_bpawn1
+    draggable_bpawn2 = DraggablePiece(screen, "./images/200px-Chess_pdt45.svg.png", convert_x_y(1, 1))
+    draggable_pieces["bpawn2"] = draggable_bpawn2
+    draggable_bpawn3 = DraggablePiece(screen, "./images/200px-Chess_pdt45.svg.png", convert_x_y(2, 1))
+    draggable_pieces["bpawn3"] = draggable_bpawn3
+    draggable_bpawn4 = DraggablePiece(screen, "./images/200px-Chess_pdt45.svg.png", convert_x_y(3, 1))
+    draggable_pieces["bpawn4"] = draggable_bpawn4
+    draggable_bpawn5 = DraggablePiece(screen, "./images/200px-Chess_pdt45.svg.png", convert_x_y(4, 1))
+    draggable_pieces["bpawn5"] = draggable_bpawn5
+    draggable_bpawn6 = DraggablePiece(screen, "./images/200px-Chess_pdt45.svg.png", convert_x_y(5, 1))
+    draggable_pieces["bpawn6"] = draggable_bpawn6
+    draggable_bpawn7 = DraggablePiece(screen, "./images/200px-Chess_pdt45.svg.png", convert_x_y(6, 1))
+    draggable_pieces["bpawn7"] = draggable_bpawn7
+    draggable_bpawn8 = DraggablePiece(screen, "./images/200px-Chess_pdt45.svg.png", convert_x_y(7, 1))
+    draggable_pieces["bpawn8"] = draggable_bpawn8
     
     return draggable_pieces
 
@@ -97,10 +148,6 @@ pygame.init()
 screen = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("Chessmachine")
 clock = pygame.time.Clock()
-
-board = Board()
-board.createBoard()
-board.printBoard()
 
 board_image = pygame.image.load("./images/board01.png")
 board_image = pygame.transform.scale(board_image, (window_width, window_height))
@@ -110,7 +157,9 @@ if __name__ == "__main__":
     os.environ['SDL_VIDEO_CENTERED'] = '1'
     pygame.init()
     clock = pygame.time.Clock()
-    board = state.board
+    
+    game.state.printBoard()
+    board = game.state.board
     
     draggable_pieces = get_draggable_pieces()
     

@@ -1,2 +1,2 @@
 # pychessmachine
-A chess game in Python with one player option
+A chess one player game in Python
