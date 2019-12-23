@@ -8,7 +8,6 @@ piece_width = 80
 piece_height = 80
 window_width = 640
 window_height = 640
-game = Game()
 draggable_pieces = {}
 pygame.init()
 screen = pygame.display.set_mode((window_width, window_height))
@@ -34,8 +33,9 @@ if __name__ == "__main__":
     pygame.init()
     clock = pygame.time.Clock()
     
-    game.state.printBoard()
-    board = game.state.board
+    gui_board = Board()
+    gui_board.game.state.printBoard()
+    state_board = gui_board.game.state.board
     
     draggable_pieces = Board.get_draggable_pieces(screen)
     

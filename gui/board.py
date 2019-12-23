@@ -8,11 +8,17 @@ Created on Mon Dec 23 11:17:33 2019
 import sys
 import pygame
 from gui.draggablepiece import DraggablePiece
+from game.game import Game
 
 piece_width = 80
 piece_height = 80
 
 class Board():
+    game = None
+    
+    def __init__(self):
+        self.game = Game()
+        
     @staticmethod
     def convert_x_y(x, y):
         return x*piece_width, y*piece_height
@@ -99,6 +105,7 @@ class Board():
         
         return draggable_pieces
     
+    @staticmethod
     def treat_draggable_piece(draggable_piece, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             mx, my = event.pos
@@ -111,3 +118,22 @@ class Board():
             draggable_piece.click = False
         elif event.type == pygame.QUIT:
             pygame.quit(); sys.exit()
+    
+    def play(self):
+        state = self.game.state
+        player = state.player
+        board = state.board
+        move = None
+        sq2 = ""
+        piece = None
+        
+        if player.ptype == "Human":
+            return
+        
+        move = player.enter_move(game, state.check)
+        
+        if move == None:
+            return
+        
+        move_entered = True
+        

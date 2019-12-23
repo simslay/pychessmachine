@@ -57,7 +57,7 @@ class State():
                     print('|', end='\n')
                     count = 0
     
-    def add_capture(piece):
+    def add_capture(self, piece):
         if piece.alliance == "Whites":
             self.black_captures.append(piece)
         elif piece.alliance == "Blacks":

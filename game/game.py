@@ -29,7 +29,7 @@ class Game():
         
         self.state.player = self.whites_player
         
-    def verify_and_play_move(state, x1, y1, x2, y2, test):
+    def verify_and_play_move(self, state, x1, y1, x2, y2, test):
         board = state.board
         whites = state.white_pieces
         blacks = state.black_pieces
@@ -199,10 +199,10 @@ class Game():
         else:
             return False
     
-    def select(event):
+    def select(self, event):
         self.selected_value = self.listbox.curselection()[0]
     
-    def change_player(player):
+    def change_player(self, player):
         if player.alliance == "Whites":
             return self.blacks_player
         elif player.alliance == "Blacks":
