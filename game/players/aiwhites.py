@@ -9,9 +9,11 @@ from game.players.player import Player
 from game.players.player import Fevals
 from game.ai.node import Node
 from game.ai.aitools import AITools
+import game.ai.horizon1
+from game.ai.alphabeta import AlphaBeta
 import random
 
-class Whites(Player):
+class AIWhites(Player):
     feval = Fevals.w_feval
     mode = "Horizon1"
     PMAX = 2
@@ -23,44 +25,47 @@ class Whites(Player):
         state = game.state
         node = None
 		
-        node = Node(state, ((None, None), (None, None), 0, 0)
+        node = Node(state, ((None, None), (None, None)), 0, 0)
 		
-        if mode == "Horizon1"
+        if self.mode == "Horizon1":
             nodes = None
             nodes = Horizon1.expand_eval(game, check, node)
+            
             return AITools.search_optimal_move(nodes)
-        elif mode == "AlphaBeta"
-			return AlphaBeta.alpha_beta_search(game, node, self.feval, PMAX)
+        elif self.mode == "AlphaBeta":
+            return AlphaBeta.alpha_beta_search(game, node, self.feval, self.PMAX)
         return None
     
     # fonction d'evaluation
     @staticmethod
-	def feval(game, state, board) {
-		res = 0.
-		rand = random()/10
+    def feval(game, state, board):
+        res = 0.
+        rand = random()/10
 		
-		if 
-		case wFeval :
-			double[] weights = {4, 5, 10, 5, 4};
-			//double[] weights = {1, 0, 10, 0, 1};
-			//double[] weights = {0, 0, 10, 0, 0};
+        if AIWhites.feval == Fevals.w_feval:
+            weights = [4, 5, 10, 5, 4]
+            #weights = [1, 0, 10, 0, 1]
+            #weights = [0, 0, 10, 0, 0]
+
+            fevals = [AIWhites.feval_own_captures(state),
+                     AIWhites.feval_opponent_captures(state),
+                     AIWhites.feval_checkmate(game, state),
+                     AIWhites.feval_stalemate(game, state),
+                     AIWhites.feval_promotion(state)]
 			
-			double[] fevals = {	fevalOwnCaptures(state),
-								fevalOpponentCaptures(state),
-								fevalCheckmate(game, state),
-								fevalStalemate(game, state),
-								fevalPromotion(state)};
-			
-			for (int i=0; i<weights.length; i++)
-				res += weights[i]*fevals[i];
-			//System.out.println("feval: res = "+res);
-			return res + rand;
-		case wAlea :
-			return fevalAlea();
-		case wCaptures :
-			return fevalOwnCaptures(state) + rand;
-		case wCheckmate :
-			return fevalCheckmate(game, state) + rand;
-		default :
-			return fevalAlea()
-	}
+            for i in range(len(weights)):
+                res += weights[i]*fevals[i];
+            return res + rand;
+        elif AIWhites.feval == Fevals.w_alea:
+            return AIWhites.feval_alea();
+        if AIWhites.feval == Fevals.w_captures:
+            return AIWhites.feval_own_captures(state) + rand;
+        if AIWhites.feval == Fevals.w_checkmate:
+            return AIWhites.feval_checkmate(game, state) + rand;
+        else:
+            return AIWhites.feval_alea()
+
+    # fonction d'evaluation aleatoire
+    @staticmethod
+    def feval_alea():
+        return random()

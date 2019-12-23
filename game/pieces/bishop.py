@@ -4,9 +4,22 @@ class Bishop(Piece):
     x = None
     y = None
     
-    def __init__(self, alliance):
-        self.alliance = alliance
-        self.nom = "bsp"
+    def __init__(self, *args, **kwargs):
+        if len(args) == 1:
+            foundOneArg = True
+            theOnlyArg = args[0]
+        else:
+            foundOneArg = False
+            theOnlyArg  = None
+        
+        if foundOneArg and isinstance(theOnlyArg, Piece):
+            self.init(theOnlyArg)
+        else:
+            self.alliance = theOnlyArg
+            self.nom = "bsp"
+    
+    def init(self, p):
+        super(p)
     
     def __repr__(self):
         return "B" if self.alliance == "Blacks" else "b"

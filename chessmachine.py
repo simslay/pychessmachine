@@ -1,7 +1,5 @@
 import os
 import pygame
-from game.game import Game
-from gui.draggablepiece import DraggablePiece
 from gui.board import Board
 
 piece_width = 80
