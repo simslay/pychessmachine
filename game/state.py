@@ -16,7 +16,7 @@ class State():
     move = ""
     white_king = None
     black_king = None
-    checked = False
+    check = False
     
     def __init__(self):
         self.board = [[Rook("Blacks"), Knight("Blacks"), Bishop("Blacks"), Queen("Blacks"), King("Blacks"), Bishop("Blacks"), Knight("Blacks"), Rook("Blacks")],

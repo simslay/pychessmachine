@@ -7,6 +7,7 @@ Created on Sun Dec 22 21:18:30 2019
 
 class Player():
     alliance = None
+    ptype = None
     
     def __init__(self):
         pass
