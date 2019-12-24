@@ -8,7 +8,7 @@ Created on Mon Dec 23 11:17:33 2019
 import sys
 import pygame
 from gui.draggablepiece import DraggablePiece
-from game.game import Game
+from pgame.game import Game
 
 piece_width = 80
 piece_height = 80

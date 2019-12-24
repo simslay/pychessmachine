@@ -1,8 +1,6 @@
-from game.pieces.piece import Piece
-from game.pieces.bishop import Bishop
-from game.pieces.rook import Rook
+from pieces.piece import Piece
 
-class Queen(Piece):
+class Knight(Piece):
     x = None
     y = None
     
@@ -18,13 +16,13 @@ class Queen(Piece):
             self.init(theOnlyArg)
         else:
             self.alliance = theOnlyArg
-            self.nom = "qun"
+            self.nom = "knt"
     
     def init(self, p):
         super(p)
     
     def __repr__(self):
-        return "Q" if self.alliance == "Blacks" else "q"
+        return "N" if self.alliance == "Blacks" else "n"
     
     def is_valid_move(self, x1, y1, x2, y2, board, player, check):
         # commun a toutes les pieces (debut)
@@ -35,13 +33,16 @@ class Queen(Piece):
               board[y2][x2] == None)):
             return False
         # commun a toutes les pieces (fin)
+        
+        # verification du mouvement en L
+        if ((x2 == x1+1 and y2 == y1+2) or
+            (x1 == x2+1 and y2 == y1+2) or
+            (x2 == x1+1 and y1 == y2+2) or
+            (x1 == x2+1 and y1 == y2+2) or
+            (x2 == x1+2 and y2 == y1+1) or
+            (x1 == x2+2 and y2 == y1+1) or
+            (x2 == x1+2 and y1 == y2+1) or
+            (x1 == x2+2 and y1 == y2+1)):
+            return True
 
-        bsp = Bishop(self.alliance)
-        bsp.x(self.x)
-        bsp.y(self.y)
-        rk = Rook(self.alliance)
-        rk.x(self.x)
-        rk.y(self.y)
-
-        return (bsp.is_valid_move(x1, y1, x2, y2, board, player, check) or
-            rk.is_valid_move(x1, y1, x2, y2, board, player, check))
+        return False

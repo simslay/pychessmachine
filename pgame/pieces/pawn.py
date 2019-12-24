@@ -1,4 +1,4 @@
-from game.pieces.piece import Piece
+from pieces.piece import Piece
 
 class Pawn(Piece):
     x = None

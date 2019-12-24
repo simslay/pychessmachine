@@ -5,12 +5,12 @@ Created on Mon Dec 23 18:55:17 2019
 @author: simslay
 """
 
-from game.players.player import Player
-from game.players.player import Fevals
-from game.ai.node import Node
-from game.ai.aitools import AITools
-import game.ai.horizon1
-from game.ai.alphabeta import AlphaBeta
+from players.player import Player
+from players.player import Fevals
+from ai.node import Node
+from ai.aitools import AITools
+import ai.horizon1
+from ai.alphabeta import AlphaBeta
 import random
 
 class AIWhites(Player):

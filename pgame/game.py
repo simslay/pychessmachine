@@ -5,13 +5,13 @@ Created on Sun Dec 22 21:09:10 2019
 @author: simslay
 """
 
-from game.state import State
-from game.players.whites import Whites
-from game.players.blacks import Blacks
-from game.pieces.queen import Queen
-from game.pieces.rook import Rook
-from game.pieces.bishop import Bishop
-from game.pieces.knight import Knight
+from pgame.state import State
+from pgame.players.whites import Whites
+from pgame.players.blacks import Blacks
+from pgame.pieces.queen import Queen
+from pgame.pieces.rook import Rook
+from pgame.pieces.bishop import Bishop
+from pgame.pieces.knight import Knight
 import tkinter as tk
 from tkinter.constants import END
 
