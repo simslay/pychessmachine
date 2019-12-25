@@ -30,5 +30,3 @@ class Player():
     @abstractmethod
     def enter_move(self, game, check):
         pass
-    
-    

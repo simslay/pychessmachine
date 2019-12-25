@@ -26,7 +26,7 @@ class Game():
         self.state = State()
         self.whites_player = Whites()
         self.blacks_player = Blacks()
-        
+
         self.state.player = self.whites_player
         
     def verify_and_play_move(self, state, x1, y1, x2, y2, test):
@@ -54,7 +54,7 @@ class Game():
                                     break
                     else: # annulation de l'eventuel pion en_passant_risk = true
                         for i in range(16):
-                            if blacks[i] != null and blacks[i].en_passant_risk:
+                            if blacks[i] != None and blacks[i].en_passant_risk:
                                 blacks[i].en_passant_risk = False
                                 break
                 elif current_player.alliance == "Blacks":
@@ -68,7 +68,7 @@ class Game():
                                     break
                     else: # annulation de l'eventuel pion en_passant_risk = true
                         for i in range(16):
-                            if whites[i]!=null and whites[i].en_passant_risk:
+                            if whites[i] != None and whites[i].en_passant_risk:
                                 whites[i].en_passant_risk = False
                                 break
             elif board[y2][x2] != None:
@@ -103,7 +103,7 @@ class Game():
                     self.listbox.insert(END, item)
                 self.listbox.pack()
                 
-                listbox.bind("<<ListboxSelect>>", self.select)
+                self.listbox.bind("<<ListboxSelect>>", self.select)
                 tk.mainloop()
 				
                 if self.selected_value == None:
@@ -136,7 +136,7 @@ class Game():
                     self.listbox.insert(END, item)
                 self.listbox.pack()
                 
-                listbox.bind("<<ListboxSelect>>", self.select)
+                self.listbox.bind("<<ListboxSelect>>", self.select)
                 tk.mainloop()
 
                 if self.selected_value == None:

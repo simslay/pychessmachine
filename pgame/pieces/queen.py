@@ -1,6 +1,6 @@
-from pieces.piece import Piece
-from pieces.bishop import Bishop
-from pieces.rook import Rook
+from pgame.pieces.piece import Piece
+from pgame.pieces.bishop import Bishop
+from pgame.pieces.rook import Rook
 
 class Queen(Piece):
     x = None

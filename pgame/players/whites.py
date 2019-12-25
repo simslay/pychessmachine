@@ -5,7 +5,7 @@ Created on Sun Dec 22 21:18:48 2019
 @author: simslay
 """
 
-from players.player import Player
+from pgame.players.player import Player
 
 class Whites(Player):
     def __init__(self):

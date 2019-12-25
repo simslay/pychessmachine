@@ -1,4 +1,4 @@
-from pieces.piece import Piece
+from pgame.pieces.piece import Piece
 
 class Pawn(Piece):
     x = None

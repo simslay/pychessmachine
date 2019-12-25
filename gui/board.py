@@ -9,21 +9,37 @@ import sys
 import pygame
 from gui.draggablepiece import DraggablePiece
 from pgame.game import Game
+from pgame.gametools import GameTools
+from pgame.pieces.bishop import Bishop
+from pgame.pieces.knight import Knight
+from pgame.pieces.queen import Queen
+from pgame.pieces.rook import Rook
 
 piece_width = 80
 piece_height = 80
 
 class Board():
     game = None
+    move_entered = None
+    square1 = ""
+    square2 = ""
+    p_size = 80
+    offset = 5
+    pieces = None
+    selected_piece = None
+    xcurs = None
+    ycurs = None
+    select = False
     
-    def __init__(self):
+    def __init__(self, screen):
         self.game = Game()
+        self.init(screen)
         
     @staticmethod
     def convert_x_y(x, y):
         return x*piece_width, y*piece_height
-    @staticmethod
-    def get_draggable_pieces(screen):
+
+    def init(self, screen):
         draggable_pieces = {}
         
         # rooks
@@ -103,7 +119,7 @@ class Board():
         draggable_bpawn8 = DraggablePiece(screen, "./images/200px-Chess_pdt45.svg.png", Board.convert_x_y(7, 1), piece_width, piece_height)
         draggable_pieces["bpawn8"] = draggable_bpawn8
         
-        return draggable_pieces
+        self.pieces = draggable_pieces
     
     @staticmethod
     def treat_draggable_piece(draggable_piece, event):
@@ -130,10 +146,282 @@ class Board():
         if player.ptype == "Human":
             return
         
-        move = player.enter_move(game, state.check)
+        move = player.enter_move(self.game, state.check) # ((x1, y1), (x2, y2))
         
         if move == None:
             return
         
-        move_entered = True
+        self.move_entered = True
+        self.square1 = "" + (chr(ord("a") + move[0][0])) + str(abs(move[0][1]-8))
+        sq2 = "" + (chr(ord("a") + move[1][0])) + str(abs(move[1][1]-8))
+        print("CPU tries " + sq2)
+		
+        for i in range(32):
+            if (self.pieces[i] != None and
+                self.pieces[i].x == GameTools.convert_x(self.square1, self.p_size, self.offset) and
+                self.pieces[i].y == GameTools.convert_y(self.square1, self.p_size, self.offset)):
+                self.pieces[i].selected = True
+                self.selected_piece = self.pieces[i]
+                # promotion
+                if len(move) == 3:
+                    for j in range(16):
+                        if state.white_pieces[j] != None and state.white_pieces[j].promoted:
+                            state.white_pieces[j].promoted = False
+                        if state.black_pieces[j] != None and state.black_pieces[j].promoted:
+                            state.black_pieces[j].promoted = False
+
+                    piece = board[move[0][1]][move[0][0]]
+                    board[move[0][1]][move[0][0]] = None
+
+                    if move[2][0] == 0:
+                        board[move[0][1]][move[0][0]] = Queen(player.alliance)
+                    elif move[2][0] == 1:
+                        board[move[0][1]][move[0][0]] = Rook(player.alliance)
+                    elif move[2][0] == 2:
+                        board[move[0][1]][move[0][0]] = Bishop(player.alliance)
+                    elif move[2][0] == 3:
+                        board[move[0][1]][move[0][0]] = Knight(player.alliance)
+                    else:
+                        board[move[0][1]][move[0][0]] = Queen(player.alliance)
+
+                    board[move[0][1]][move[0][0]].promoted = True
+
+                    if player.alliance == "Whites":
+                        for j in range(16):
+                            if (state.white_pieces[j] != None and
+                                hash(state.white_pieces[j]) == hash(piece)):
+                                state.white_pieces[j] = board[move[0][1]][move[0][0]]
+                                break
+                    elif player.alliance == "Blacks":
+                        for j in range(16):
+                            if (state.black_pieces[j] != None and
+                                hash(state.black_pieces[j]) == hash(piece)):
+                                state.black_pieces[j] = board[move[0][1]][move[0][0]]
+                                break
+                break
+            if i+1 == 32:
+                return
+
+        self.play_move(GameTools.convert_x(sq2, self.p_size, self.offset), GameTools.convert_y(sq2, self.p_size, self.offset))
         
+    def play_move(self, x, y):
+    	if self.game.state.player.ptype == "Artificial" and not self.move_entered:
+    		return
+        else:
+    		self.move_entered = False
+    	
+		for i in range(32):
+			if self.pieces[i] != None and pieces[i].selected
+				break
+			if i+1 == 32:
+                return
+		
+		state = game.state
+		next_state = None
+		self.xcurs = x
+		self.ycurs = y
+		y1 = abs(int(""+self.square1[1])-8)
+		x1 = ord(self.square1[0])-ord('a')
+		y2 = None
+        x2 = None
+		current_player = self.game.state.player
+		piece = self.game.state.board[y1][x1]
+
+		if piece == None
+			return
+		
+		next_state = State(state)
+
+		if pygame.mouse.get_focused() == 0 and current_player.ptype != "Artificial":
+			selected_piece.x = GameTools.convertX(self.square1, self.p_size, self.offset)
+			selected_piece.y = GameTools.convertY(self.square1, self.p_size, self.offset)
+			selected_piece.selected = False
+			#repaint()
+			return
+
+		self.select = False
+		self.square2 = GameTools.square(xcurs-self.offset, ycurs-self.offset)
+		y2 = abs(int(square2[1])-8)
+		x2 = ord(square2[0]) - ord('a')
+			
+		if (self.game.verifyAndPlayMove(nextState, x1, y1, x2, y2, false) && !endOfGame) {
+			/*System.out.print("mouseReleased (verify: true) ");
+			System.out.println(state.getPlayer().getColor() == Player.WHITE ? "white" : "black");*/
+			game.setState(nextState);
+			/*System.out.print("mouseReleased ");
+			System.out.println(state.getPlayer().getColor() == Player.WHITE ? "white" : "black");*/
+			//System.out.println("playMove2 "+nextState.getBoard()[0][0].isCastlingPoss());
+			if (!GameUtil.isEndOfGame(game, messageLabel)) {
+					
+				//System.out.println("playMove3 "+game.getState().getBoard()[0][0].isCastlingPoss());
+				//System.out.println(game.getState());
+					
+				/** placement de la piece **/
+				selectedPiece.setX(GameUtil.convertX(square2, p_size, offset));
+				selectedPiece.setY(GameUtil.convertY(square2, p_size, offset));
+				selectedPiece.setSelected(false);
+					
+				int n = 0;
+
+				for (int i=0; i<8; i++) {
+					for (int j=0; j<8; j++) {
+						Piece p = game.getState().getBoard()[j][i];
+						if (p != null) {
+								
+							/*if (p.getNom().equals("rok") &&
+								p.getColor() == Game.WHITE)
+								System.out.println("rok");*/
+								
+							for (int k=n; k<32; k++) {
+								if (pieces[k] != null &&
+									pieces[k].isSelected() == false) {
+										
+									/*if (pieces[k].getNom().equals("rok") &&
+											pieces[k].getColor() == Game.WHITE)
+											System.out.println("rok"+k);*/
+										
+									changeImage(pieces[k], p);
+										
+									/*if (pieces[k].getNom().equals("rok") &&
+											pieces[k].getColor() == Game.WHITE)
+											System.out.println("rok"+k);*/
+										
+									//System.out.println(k);
+										
+									pieces[k].setX(GameUtil.convertX(
+									""+(char)(i+'a')+Math.abs(j-8), p_size, offset));
+									pieces[k].setY(GameUtil.convertY(
+									""+(char)(i+'a')+Math.abs(j-8), p_size, offset));
+									pieces[k].setSelected(true);
+									//System.out.println(""+(char)(i+'a')+Math.abs(j-8));
+									n = k+1;
+									break;
+								}
+							}
+						}
+					}
+				}
+				for (int k=n; k<32; k++) {
+					if (pieces[k] != null && pieces[k].isSelected() == false) {
+						//System.out.println("null");
+						pieces[k] = null;
+					}
+				}
+					
+				game.getState().getReview().add(new String[]{square1, square2});
+					
+				/*if (capturePanel!=null && capturePanel.isEnabled())
+					capturePanel.setText(state.capturesToString());*/
+				//System.out.println(state.toString());
+					
+			} else {
+				//System.out.println("end");
+				if (messageLabel.getText().equals("White will be check!") ||
+					messageLabel.getText().equals("Black will be check!")) {
+					/*System.out.print("mouseReleased (verify: true) ");
+					System.out.println(state.getPlayer().getColor() == Player.WHITE ? "white" : "black");*/
+					game.setState(state);
+					/*System.out.print("mouseReleased ");
+					System.out.println(state.getPlayer().getColor() == Player.WHITE ? "white" : "black");*/
+					for(int i=0; i<32; i++)
+						if (pieces[i]!=null && pieces[i].isSelected()) {
+							pieces[i].setSelected(false);
+							pieces[i].setX(GameUtil.convertX(square1, p_size, offset));
+							pieces[i].setY(GameUtil.convertY(square1, p_size, offset));
+							break;
+						}
+				} else if (messageLabel.getText().equals("Checkmate! White wins") ||
+						messageLabel.getText().equals("Checkmate! Black wins") ||
+						messageLabel.getText().equals("White is stalemated!") ||
+						messageLabel.getText().equals("Black is stalemated!")) {
+					endOfGame=true;
+					imax=0;
+						
+					/** capture et/ou placement du dernier coup **/
+					selectedPiece.setX(GameUtil.convertX(square2, p_size, offset));
+					selectedPiece.setY(GameUtil.convertY(square2, p_size, offset));
+					selectedPiece.setSelected(false);
+						
+					int n = 0;
+
+					for (int i=0; i<8; i++) {
+						for (int j=0; j<8; j++) {
+							Piece p = game.getState().getBoard()[j][i];
+							if (p != null) {
+					
+								for (int k=n; k<32; k++) {
+									if (pieces[k] != null &&
+										pieces[k].isSelected() == false) {
+							
+										changeImage(pieces[k], p);
+											
+										pieces[k].setX(GameUtil.convertX(
+										""+(char)(i+'a')+Math.abs(j-8), p_size, offset));
+										pieces[k].setY(GameUtil.convertY(
+										""+(char)(i+'a')+Math.abs(j-8), p_size, offset));
+										pieces[k].setSelected(true);
+										n = k+1;
+										break;
+									}
+								}
+							}
+						}
+					}
+					for (int k=n; k<32; k++) {
+						if (pieces[k] != null && pieces[k].isSelected() == false) {
+							//System.out.println("null");
+							pieces[k] = null;
+						}
+					}
+		
+					game.getState().getReview().add(new String[]{square1, square2});
+				}
+			}
+			repaint();
+		} else {
+			/*System.out.print("mouseReleased  (verify: false) ");
+			System.out.println(state.getPlayer().getColor() == Player.WHITE ? "white" : "black");*/
+			if (!endOfGame)
+				game.setState(nextState);
+			/*System.out.print("mouseReleased ");
+			System.out.println(state.getPlayer().getColor() == Player.WHITE ? "white" : "black");*/
+	
+			String player=piece.getColor()==Game.WHITE ? "white" : "black";
+	
+			if (piece.getColor() == currentPlayer.getColor() && !endOfGame)
+				messageLabel.setText("Move is not valid");
+			else if (!endOfGame)
+				messageLabel.setText("This is not "+player+"'s turn");
+	
+			selectedPiece.setSelected(false);
+			selectedPiece.setX(GameUtil.convertX(square1, p_size, offset));
+			selectedPiece.setY(GameUtil.convertY(square1, p_size, offset));
+				
+			repaint();
+		}
+		
+		for (int i=0; i<32; i++) {
+			if (pieces[i]!=null)
+				pieces[i].setSelected(false);
+		}
+		
+		//System.out.println(square1+square2);
+		
+		//System.out.println(state.toString());
+		//System.out.println(game.getBlack().getType() == Player.ARTIFICIAL ? "artificial" : "human");
+		//System.out.println(nextState.getPlayer().getType() == Player.ARTIFICIAL ? "artificial" : "human");
+		
+		Player p;
+		
+		if (nextState.getPlayer().getColor() == Player.WHITE)
+			p = game.getBlack();
+		else
+			p = game.getWhite();
+		
+		if (nextState.getPlayer().getType() == Player.ARTIFICIAL &&
+			p.getType() == Player.HUMAN &&
+			!endOfGame) {
+			//System.out.println("play");
+			play();
+		}
+    }

@@ -31,11 +31,11 @@ if __name__ == "__main__":
     pygame.init()
     clock = pygame.time.Clock()
     
-    gui_board = Board()
+    gui_board = Board(screen)
     gui_board.game.state.printBoard()
     state_board = gui_board.game.state.board
     
-    draggable_pieces = Board.get_draggable_pieces(screen)
+    draggable_pieces = gui_board.pieces
     
     while 1:
         main(screen, draggable_pieces)

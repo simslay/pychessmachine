@@ -1,13 +1,13 @@
-from pieces.bishop import Bishop
-from pieces.king import King
-from pieces.knight import Knight
-from pieces.pawn import Pawn
-from pieces.queen import Queen
-from pieces.rook import Rook
-from players.whites import Whites
-from players.blacks import Blacks
-from players.aiwhites import AIWhites
-from players.aiblacks import AIBlacks
+from pgame.pieces.bishop import Bishop
+from pgame.pieces.king import King
+from pgame.pieces.knight import Knight
+from pgame.pieces.pawn import Pawn
+from pgame.pieces.queen import Queen
+from pgame.pieces.rook import Rook
+from pgame.players.whites import Whites
+from pgame.players.blacks import Blacks
+from pgame.players.aiwhites import AIWhites
+from pgame.players.aiblacks import AIBlacks
 
 class State():
     board = []

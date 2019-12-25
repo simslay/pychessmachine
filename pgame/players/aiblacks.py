@@ -5,12 +5,12 @@ Created on Mon Dec 23 18:55:37 2019
 @author: simslay
 """
 
-from players.player import Player
-from players.player import Fevals
-from ai.node import Node
-from ai.aitools import AITools
-import ai.horizon1
-from ai.alphabeta import AlphaBeta
+from pgame.players.player import Player
+from pgame.players.player import Fevals
+from pgame.ai.node import Node
+from pgame.ai.aitools import AITools
+import pgame.ai.horizon1
+from pgame.ai.alphabeta import AlphaBeta
 import random
 
 class AIBlacks(Player):
@@ -29,9 +29,9 @@ class AIBlacks(Player):
 		
         if self.mode == "Horizon1":
             nodes = None
-            nodes = Horizon1.expand_eval(game, check, node)
+            nodes = horizon1.Horizon1.expand_eval(game, check, node)
             
-            return AITools.search_optimal_move(nodes)
+            return AITools.search_optimal_move(nodes) # node.action ((x1, y1), (x2, y2))
         elif self.mode == "AlphaBeta":
             return AlphaBeta.alpha_beta_search(game, node, self.feval, self.PMAX)
         return None

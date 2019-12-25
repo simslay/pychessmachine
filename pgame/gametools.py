@@ -5,17 +5,31 @@ Created on Mon Dec 23 20:59:23 2019
 @author: simslay
 """
 
-from pieces.pawn import Pawn
-from pieces.rook import Rook
-from pieces.knight import Knight
-from pieces.bishop import Bishop
-from pieces.queen import Queen
-from pieces.king import King
-from state import State
+from pgame.pieces.pawn import Pawn
+from pgame.pieces.rook import Rook
+from pgame.pieces.knight import Knight
+from pgame.pieces.bishop import Bishop
+from pgame.pieces.queen import Queen
+from pgame.pieces.king import King
+import pgame.state
 
 class GameTools:
     def __init__(self):
         pass
+    
+    @staticmethod
+    def convert_x(square, p_size, offset):
+		return (ord(square[0]) - ord('a')) * p_size + offset
+	
+    @staticmethod
+	def convert_y(square, p_size):
+		return abs(int(square[1]) - 8) * p_size + offset
+    
+    @staticmethod
+    def square(px, py):
+		x = chr(ord('a')+int(px/80))
+        y = 8-int(py/80)
+		return str(x) + str(y)
     
     @staticmethod
     def valid_moves(game, piece, check):
@@ -55,6 +69,33 @@ class GameTools:
 
         return list
 
+    def white_is_check(game, state, x, y):
+        board = state.board
+        black_pieces = state.black_pieces
+        piece = None
+
+        for i in range(16):
+            piece = black_pieces[i]
+
+            if piece != None:
+                if piece.is_valid_move(piece.x, piece.y, x, y, board, game.blacks_player, False):
+                    return True
+        return False
+    
+    def black_is_check(game, state, x, y):
+        board = state.board
+        white_pieces = state.white_pieces
+        piece = None
+
+        for i in range(16):
+            piece = white_pieces[i]
+
+            if piece != None:
+                if piece.is_valid_move(piece.x, piece.y, x, y, board, game.whites_player, False):
+                    return True
+
+        return False
+    
     @staticmethod
     def white_is_checkmate(game):
         state = game.state
@@ -66,7 +107,7 @@ class GameTools:
         valid_moves = []
         move = []
 
-        state_copy = State(state)
+        state_copy = state.State(state)
 
         if game.state.player.alliance == "Blakcs":
             if GameTools.white_is_check(game, state_copy, x, y):
@@ -75,7 +116,7 @@ class GameTools:
                 return True
             return False
 
-        state_copy = State(state)
+        state_copy = state.State(state)
 
         if GameTools.white_is_check(game, state_copy, x, y):
 
@@ -86,7 +127,7 @@ class GameTools:
 
                 for j in range(len(valid_moves)):
                     move = valid_moves[j]
-                    state_copy = State(state)
+                    state_copy = state.State(state)
 
                     if state_copy == None:
                         return False
@@ -113,7 +154,7 @@ class GameTools:
         valid_moves = None
         move = None
 
-        state_copy = State(state)
+        state_copy = state.State(state)
 
         if game.state.player.alliance == "Whites":
             if GameTools.black_is_check(game, state_copy, x, y):
@@ -122,7 +163,7 @@ class GameTools:
                 return True
             return False
 
-        state_copy = State(state)
+        state_copy = state.State(state)
 		
         if GameTools.black_is_check(game, state_copy, x, y):
             for i in range(16):
@@ -132,7 +173,7 @@ class GameTools:
 
                 for j in range(len(valid_moves)):
                     move = valid_moves[j]
-                    state_copy = State(state)
+                    state_copy = state.State(state)
 
                     if state_copy == None:
                         return False

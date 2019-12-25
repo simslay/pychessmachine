@@ -5,13 +5,11 @@ Created on Mon Dec 23 17:56:41 2019
 @author: simslay
 """
 
-import players.aiwhites
-import players.aiblacks
-from ai.node import Node
+from pgame.ai.node import Node
 from pgame.gametools import GameTools
-from state import State
-from players.aiwhites import AIWhites
-from players.aiblacks import AIBlacks
+import pgame.state
+import pgame.players.aiwhites
+import pgame.players.aiblacks
 
 class Horizon1():
     @staticmethod
@@ -37,7 +35,7 @@ class Horizon1():
                 for j in range(len(valid_moves)):
                     move = valid_moves[j]
 
-                    state_copy = State(state)
+                    state_copy = state.State(state)
 
                     if game.verify_and_play_move(state_copy, move[0][0], move[0][1], move[1][0], move[1][1], True):
                         game.state = state_copy
@@ -95,9 +93,9 @@ class Horizon1():
                 game.state = new_state
 
                 if state.player.alliance == "Whites":
-                    f = AIWhites.feval(game, new_state, new_state.board)
+                    f = aiwhites.AIWhites.feval(game, new_state, new_state.board)
                 elif state.player.alliance == "Blacks":
-                    f = AIBlacks.feval(game, new_state, new_state.board)
+                    f = aiblacks.AIBlacks.feval(game, new_state, new_state.board)
 
                 move = successors[i].move
                 nodes.append(Node(new_state, move, f, n.depth+1))
