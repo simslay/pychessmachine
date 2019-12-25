@@ -8,6 +8,8 @@ Created on Mon Dec 23 11:06:05 2019
 import pygame
 
 class DraggablePiece:
+    selected = None
+    
     def __init__(self, screen, path, xy, piece_width, piece_height):
         self.path = path
         self.x, self.y = xy
@@ -19,6 +21,7 @@ class DraggablePiece:
         self.image = pygame.image.load(self.path)
         self.image = pygame.transform.scale(self.image, (piece_width, piece_height))
         screen.blit(self.image, (self.x, self.y))
+
     def update(self, screen, draggable_pieces, board_image):
         if self.click:
             mx, my = pygame.mouse.get_pos()

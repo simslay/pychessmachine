@@ -19,17 +19,27 @@ class GameTools:
     
     @staticmethod
     def convert_x(square, p_size, offset):
-		return (ord(square[0]) - ord('a')) * p_size + offset
-	
+        return (ord(square[0]) - ord('a')) * p_size + offset
+    
     @staticmethod
-	def convert_y(square, p_size):
-		return abs(int(square[1]) - 8) * p_size + offset
+    def convert_y(square, p_size, offset):
+        return abs(int(square[1]) - 8) * p_size + offset
     
     @staticmethod
     def square(px, py):
-		x = chr(ord('a')+int(px/80))
+        x = chr(ord('a')+int(px/80))
         y = 8-int(py/80)
-		return str(x) + str(y)
+
+        return str(x) + str(y)
+    
+    @staticmethod
+    def is_end_of_game(game):
+        game.state.check = False
+
+        return    (GameTools.white_is_checkmate(game) or
+                  GameTools.black_is_checkmate(game) or
+                  GameTools.white_is_stalemate(game) or
+                  GameTools.black_is_stalemate(game))
     
     @staticmethod
     def valid_moves(game, piece, check):
@@ -57,17 +67,87 @@ class GameTools:
             p = Queen(piece)
         elif piece.nom == "kng":
             p = King(piece)
-		
+        
         if p == None:
             return list
-		
-		
+        
+        
         for i in range(8):
             for j in range(8):
                 if p.is_valid_move(square1[0], square1[1], i, j, board, player, check):
                     list.append((square1, (i, j)));
 
         return list
+    
+    @staticmethod
+    def white_is_stalemate(game):
+        state = game.state
+        state_copy = None
+        player = state.player
+        white_pieces = state.white_pieces
+        piece = None
+        valid_moves = None
+        move = None
+
+        if player.alliance == "Blacks":
+            return False
+
+        for i in range(16):
+            piece = white_pieces[i]
+            
+            if piece != None:
+                valid_moves = valid_moves(game, piece, True)
+                
+                for j in range(len(valid_moves)):
+                    move = valid_moves[j]
+
+                    state_copy = state.State(state)
+                    
+                    if state_copy == None:
+                        return False
+                    
+                    game.verify_and_play_move(state_copy, move[0][0], move[0][1], move[1][0], move [1][1], True)
+                    if not GameTools.white_is_check(game, state_copy, state_copy.wking.x, state_copy.wking.y):
+                        return False
+
+        print("White is stalemated!")
+        
+        return True
+    
+    @staticmethod
+    def black_is_stalemate(game):
+        state = game.state
+        state_copy = None
+        player = state.player
+        black_pieces = state.black_pieces
+        piece = None
+        valid_moves = None
+        move = None
+
+        if player.alliance == "Whites":
+            return False
+        
+        for i in range(16):
+            piece = black_pieces[i]
+            
+            if piece != None:
+                valid_moves = valid_moves(game, piece, True)
+                
+                for j in range(len(valid_moves)):
+                    move = valid_moves[j]
+                    state_copy = state.State(state)
+                    
+                    if state_copy == None:
+                        return False
+                    
+                    game.verify_and_play_move(state_copy, move[0][0], move[0][1], move[1][0], move[1][1], True)
+                    
+                    if not GameTools.black_is_check(game, state_copy, state_copy.bking.x, state_copy.bking.y):
+                        return False
+        
+        print("Black is stalemated!")
+        
+        return True
 
     def white_is_check(game, state, x, y):
         board = state.board
@@ -164,7 +244,7 @@ class GameTools:
             return False
 
         state_copy = state.State(state)
-		
+        
         if GameTools.black_is_check(game, state_copy, x, y):
             for i in range(16):
                 valid_moves = valid_moves(game, black_pieces[i], True)
