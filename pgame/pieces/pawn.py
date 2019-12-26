@@ -19,7 +19,7 @@ class Pawn(Piece):
             self.nom = "pwn"
     
     def init(self, p):
-        super(p)
+        super().init(p)
     
     def __repr__(self):
         return "P" if self.alliance == "Blacks" else "p"

@@ -19,7 +19,7 @@ class Bishop(Piece):
             self.nom = "bsp"
     
     def init(self, p):
-        super(p)
+        super().init(p)
     
     def __repr__(self):
         return "B" if self.alliance == "Blacks" else "b"

@@ -97,12 +97,12 @@ class GameTools:
             piece = white_pieces[i]
             
             if piece != None:
-                valid_moves = valid_moves(game, piece, True)
+                valid_moves = GameTools.valid_moves(game, piece, True)
                 
                 for j in range(len(valid_moves)):
                     move = valid_moves[j]
 
-                    state_copy = state.State(game_state)
+                    state_copy = pgame.state.State(game_state)
                     
                     if state_copy == None:
                         return False
@@ -133,11 +133,11 @@ class GameTools:
             piece = black_pieces[i]
             
             if piece != None:
-                valid_moves = valid_moves(game, piece, True)
+                valid_moves = GameTools.valid_moves(game, piece, True)
                 
                 for j in range(len(valid_moves)):
                     move = valid_moves[j]
-                    state_copy = state.State(game_state)
+                    state_copy = pgame.state.State(game_state)
                     
                     if state_copy == None:
                         return False
@@ -181,26 +181,26 @@ class GameTools:
     
     @staticmethod
     def white_is_checkmate(game):
-        state = game.state
+        game_state = game.state
         state_copy = None
-        wKing = state.wking
+        wKing = game_state.wking
         x = wKing.x
         y = wKing.y
-        white_pieces = state.white_pieces
+        white_pieces = game_state.white_pieces
         valid_moves = []
         move = []
 
-        state_copy = state.State(state)
+        state_copy = pgame.state.State(game_state)
 
-        if game.state.player.alliance == "Blakcs":
+        if game.state.player.alliance == "Blacks":
             if GameTools.white_is_check(game, state_copy, x, y):
                 GameTools.message = "White will be check!"
                 print(GameTools.message)
-                state.player = GameTools.change_player(state.player, game)
+                game_state.player = GameTools.change_player(game_state.player, game)
                 return True
             return False
 
-        state_copy = state.State(state)
+        state_copy = pgame.state.State(game_state)
 
         if GameTools.white_is_check(game, state_copy, x, y):
 
@@ -211,7 +211,7 @@ class GameTools:
 
                 for j in range(len(valid_moves)):
                     move = valid_moves[j]
-                    state_copy = state.State(state)
+                    state_copy = pgame.state.State(game_state)
 
                     if state_copy == None:
                         return False
@@ -221,7 +221,7 @@ class GameTools:
                     if not GameTools.white_is_check(game, state_copy, state_copy.wking.x, state_copy.wking.y):
                         GameTools.message = "Check!"
                         print(GameTools.message)
-                        state.check = True
+                        game_state.check = True
                         return False
             GameTools.message = "Checkmate! Black wins"
             print(GameTools.message)
@@ -240,7 +240,7 @@ class GameTools:
         valid_moves = None
         move = None
 
-        state_copy = state.State(state)
+        state_copy = pgame.state.State(state)
 
         if game.state.player.alliance == "Whites":
             if GameTools.black_is_check(game, state_copy, x, y):
@@ -250,17 +250,17 @@ class GameTools:
                 return True
             return False
 
-        state_copy = state.State(state)
+        state_copy = pgame.state.State(state)
         
         if GameTools.black_is_check(game, state_copy, x, y):
             for i in range(16):
-                valid_moves = valid_moves(game, black_pieces[i], True)
+                valid_moves = GameTools.valid_moves(game, black_pieces[i], True)
                 if len(valid_moves) == 0:
                     continue
 
                 for j in range(len(valid_moves)):
                     move = valid_moves[j]
-                    state_copy = state.State(state)
+                    state_copy = pgame.state.State(state)
 
                     if state_copy == None:
                         return False

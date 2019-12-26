@@ -6,7 +6,6 @@ piece_width = 80
 piece_height = 80
 window_width = 640
 window_height = 640
-draggable_pieces = []
 pygame.init()
 screen = pygame.display.set_mode((window_width, window_height))
 board_image = pygame.image.load("./images/board01.png")
@@ -20,10 +19,12 @@ def main(screen, draggable_pieces):
     for event in pygame.event.get():
         for i in range(32):
             draggable_piece = draggable_pieces[i]
-            gui_board.treat_draggable_piece(draggable_piece, event)
+            if draggable_piece != None:
+                gui_board.treat_draggable_piece(screen, draggable_piece, event)
 
     for draggable_piece in draggable_pieces:
-        draggable_piece.update(screen, draggable_pieces, board_image)
+        if draggable_piece != None:
+            draggable_piece.update(screen, draggable_pieces, board_image)
 
 
 if __name__ == "__main__":
@@ -35,9 +36,7 @@ if __name__ == "__main__":
     gui_board.game.state.printBoard()
     state_board = gui_board.game.state.board
     
-    draggable_pieces = gui_board.pieces
-    
     while 1:
-        main(screen, draggable_pieces)
+        main(screen, gui_board.pieces)
         pygame.display.update()
         clock.tick(60)

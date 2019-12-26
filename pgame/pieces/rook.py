@@ -19,7 +19,7 @@ class Rook(Piece):
             self.nom = "rok"
     
     def init(self, p):
-        super(p)
+        super().init(p)
     
     def __repr__(self):
         return "R" if self.alliance == "Blacks" else "r"

@@ -14,7 +14,7 @@ from pgame.pieces.bishop import Bishop
 from pgame.pieces.knight import Knight
 from pgame.pieces.queen import Queen
 from pgame.pieces.rook import Rook
-import pgame.state
+from pgame.state import State
 
 piece_width = 80
 piece_height = 80
@@ -25,7 +25,7 @@ class Board():
     square1 = ""
     square2 = ""
     p_size = 80
-    offset = 5
+    offset = 0
     pieces = None
     selected_piece = None
     xcurs = None
@@ -50,15 +50,15 @@ class Board():
     begin = True
     xi = None
     yi = None
-    board = None
+    board_image = None
     
-    def __init__(self, screen, board):
+    def __init__(self, screen, board_image):
         self.game = Game()
         self.end_of_game = False
         self.init(screen)
         self.xi = 0
         self.yi = 0
-        self.board = board
+        self.board_image = board_image
         
     @staticmethod
     def convert_x_y(x, y):
@@ -68,97 +68,97 @@ class Board():
         draggable_pieces = []
         
         # rooks
-        draggable_wrook1 = DraggablePiece(screen, "./images/200px-Chess_rlt45.svg.png", Board.convert_x_y(0, 7), piece_width, piece_height)
+        draggable_wrook1 = DraggablePiece(screen, "rok", "Whites", "./images/200px-Chess_rlt45.svg.png", Board.convert_x_y(0, 7), piece_width, piece_height)
         self.wht_rk_img = draggable_wrook1.image
         draggable_pieces.append(draggable_wrook1)
-        draggable_wrook2 = DraggablePiece(screen, "./images/200px-Chess_rlt45.svg.png", Board.convert_x_y(7, 7), piece_width, piece_height)
+        draggable_wrook2 = DraggablePiece(screen, "rok", "Whites", "./images/200px-Chess_rlt45.svg.png", Board.convert_x_y(7, 7), piece_width, piece_height)
         draggable_pieces.append(draggable_wrook2)
-        draggable_brook1 = DraggablePiece(screen, "./images/200px-Chess_rdt45.svg.png", Board.convert_x_y(0, 0), piece_width, piece_height)
+        draggable_brook1 = DraggablePiece(screen, "rok", "Blacks", "./images/200px-Chess_rdt45.svg.png", Board.convert_x_y(0, 0), piece_width, piece_height)
         self.blk_rk_img = draggable_brook1.image
         draggable_pieces.append(draggable_brook1)
-        draggable_brook2 = DraggablePiece(screen, "./images/200px-Chess_rdt45.svg.png", Board.convert_x_y(7, 0), piece_width, piece_height)
+        draggable_brook2 = DraggablePiece(screen, "rok", "Blacks", "./images/200px-Chess_rdt45.svg.png", Board.convert_x_y(7, 0), piece_width, piece_height)
         draggable_pieces.append(draggable_brook2)
         
         # bishops
-        draggable_wbishop1 = DraggablePiece(screen, "./images/200px-Chess_blt45.svg.png", Board.convert_x_y(2, 7), piece_width, piece_height)
+        draggable_wbishop1 = DraggablePiece(screen, "bsp", "Whites", "./images/200px-Chess_blt45.svg.png", Board.convert_x_y(2, 7), piece_width, piece_height)
         self.wht_bsp_img = draggable_wbishop1.image
         draggable_pieces.append(draggable_wbishop1)
-        draggable_wbishop2 = DraggablePiece(screen, "./images/200px-Chess_blt45.svg.png", Board.convert_x_y(5, 7), piece_width, piece_height)
+        draggable_wbishop2 = DraggablePiece(screen, "bsp", "Whites", "./images/200px-Chess_blt45.svg.png", Board.convert_x_y(5, 7), piece_width, piece_height)
         draggable_pieces.append(draggable_wbishop2)
-        draggable_bbishop1 = DraggablePiece(screen, "./images/200px-Chess_bdt45.svg.png", Board.convert_x_y(2, 0), piece_width, piece_height)
+        draggable_bbishop1 = DraggablePiece(screen, "bsp", "Blacks", "./images/200px-Chess_bdt45.svg.png", Board.convert_x_y(2, 0), piece_width, piece_height)
         self.blk_bsp_img = draggable_bbishop1.image
         draggable_pieces.append(draggable_bbishop1)
-        draggable_bbishop2 = DraggablePiece(screen, "./images/200px-Chess_bdt45.svg.png", Board.convert_x_y(5, 0), piece_width, piece_height)
+        draggable_bbishop2 = DraggablePiece(screen, "bsp", "Blacks", "./images/200px-Chess_bdt45.svg.png", Board.convert_x_y(5, 0), piece_width, piece_height)
         draggable_pieces.append(draggable_bbishop2)
         
         # knights
-        draggable_wknigth1 = DraggablePiece(screen, "./images/200px-Chess_nlt45.svg.png", Board.convert_x_y(1, 7), piece_width, piece_height)
+        draggable_wknigth1 = DraggablePiece(screen, "knt", "Whites", "./images/200px-Chess_nlt45.svg.png", Board.convert_x_y(1, 7), piece_width, piece_height)
         self.wht_knt_img = draggable_wknigth1.image
         draggable_pieces.append(draggable_wknigth1)
-        draggable_wknigth2 = DraggablePiece(screen, "./images/200px-Chess_nlt45.svg.png", Board.convert_x_y(6, 7), piece_width, piece_height)
+        draggable_wknigth2 = DraggablePiece(screen, "knt", "Whites", "./images/200px-Chess_nlt45.svg.png", Board.convert_x_y(6, 7), piece_width, piece_height)
         draggable_pieces.append(draggable_wknigth2)
-        draggable_bknigth1 = DraggablePiece(screen, "./images/200px-Chess_ndt45.svg.png", Board.convert_x_y(1, 0), piece_width, piece_height)
+        draggable_bknigth1 = DraggablePiece(screen, "knt", "Blacks", "./images/200px-Chess_ndt45.svg.png", Board.convert_x_y(1, 0), piece_width, piece_height)
         self.blk_knt_img = draggable_bknigth1.image
         draggable_pieces.append(draggable_bknigth1)
-        draggable_bknigth2 = DraggablePiece(screen, "./images/200px-Chess_ndt45.svg.png", Board.convert_x_y(6, 0), piece_width, piece_height)
+        draggable_bknigth2 = DraggablePiece(screen, "knt", "Blacks", "./images/200px-Chess_ndt45.svg.png", Board.convert_x_y(6, 0), piece_width, piece_height)
         draggable_pieces.append(draggable_bknigth2)
         
         # queens
-        draggable_wqueen = DraggablePiece(screen, "./images/200px-Chess_qlt45.svg.png", Board.convert_x_y(3, 7), piece_width, piece_height)
+        draggable_wqueen = DraggablePiece(screen, "qun", "Whites", "./images/200px-Chess_qlt45.svg.png", Board.convert_x_y(3, 7), piece_width, piece_height)
         self.wht_qn_img = draggable_wqueen.image
         draggable_pieces.append(draggable_wqueen)
-        draggable_bqueen = DraggablePiece(screen, "./images/200px-Chess_qdt45.svg.png", Board.convert_x_y(3, 0), piece_width, piece_height)
+        draggable_bqueen = DraggablePiece(screen, "qun", "Blacks", "./images/200px-Chess_qdt45.svg.png", Board.convert_x_y(3, 0), piece_width, piece_height)
         self.blk_qn_img = draggable_bqueen.image
         draggable_pieces.append(draggable_bqueen)
         
         # kings
-        draggable_wking = DraggablePiece(screen, "./images/200px-Chess_klt45.svg.png", Board.convert_x_y(4, 7), piece_width, piece_height)
+        draggable_wking = DraggablePiece(screen, "kng", "Whites", "./images/200px-Chess_klt45.svg.png", Board.convert_x_y(4, 7), piece_width, piece_height)
         self.wht_kng_img = draggable_wking.image
         draggable_pieces.append(draggable_wking)
-        draggable_bking = DraggablePiece(screen, "./images/200px-Chess_kdt45.svg.png", Board.convert_x_y(4, 0), piece_width, piece_height)
+        draggable_bking = DraggablePiece(screen, "kng", "Blacks", "./images/200px-Chess_kdt45.svg.png", Board.convert_x_y(4, 0), piece_width, piece_height)
         self.blk_kng_img = draggable_bking.image
         draggable_pieces.append(draggable_bking)
         
         # pawns
-        draggable_wpawn1 = DraggablePiece(screen, "./images/200px-Chess_plt45.svg.png", Board.convert_x_y(0, 6), piece_width, piece_height)
+        draggable_wpawn1 = DraggablePiece(screen, "pwn", "Whites", "./images/200px-Chess_plt45.svg.png", Board.convert_x_y(0, 6), piece_width, piece_height)
         self.wht_pwn_img = draggable_wpawn1.image
         draggable_pieces.append(draggable_wpawn1)
-        draggable_wpawn2 = DraggablePiece(screen, "./images/200px-Chess_plt45.svg.png", Board.convert_x_y(1, 6), piece_width, piece_height)
+        draggable_wpawn2 = DraggablePiece(screen, "pwn", "Whites", "./images/200px-Chess_plt45.svg.png", Board.convert_x_y(1, 6), piece_width, piece_height)
         draggable_pieces.append(draggable_wpawn2)
-        draggable_wpawn3 = DraggablePiece(screen, "./images/200px-Chess_plt45.svg.png", Board.convert_x_y(2, 6), piece_width, piece_height)
+        draggable_wpawn3 = DraggablePiece(screen, "pwn", "Whites", "./images/200px-Chess_plt45.svg.png", Board.convert_x_y(2, 6), piece_width, piece_height)
         draggable_pieces.append(draggable_wpawn3)
-        draggable_wpawn4 = DraggablePiece(screen, "./images/200px-Chess_plt45.svg.png", Board.convert_x_y(3, 6), piece_width, piece_height)
+        draggable_wpawn4 = DraggablePiece(screen, "pwn", "Whites", "./images/200px-Chess_plt45.svg.png", Board.convert_x_y(3, 6), piece_width, piece_height)
         draggable_pieces.append(draggable_wpawn4)
-        draggable_wpawn5 = DraggablePiece(screen, "./images/200px-Chess_plt45.svg.png", Board.convert_x_y(4, 6), piece_width, piece_height)
+        draggable_wpawn5 = DraggablePiece(screen, "pwn", "Whites", "./images/200px-Chess_plt45.svg.png", Board.convert_x_y(4, 6), piece_width, piece_height)
         draggable_pieces.append(draggable_wpawn5)
-        draggable_wpawn6 = DraggablePiece(screen, "./images/200px-Chess_plt45.svg.png", Board.convert_x_y(5, 6), piece_width, piece_height)
+        draggable_wpawn6 = DraggablePiece(screen, "pwn", "Whites", "./images/200px-Chess_plt45.svg.png", Board.convert_x_y(5, 6), piece_width, piece_height)
         draggable_pieces.append(draggable_wpawn6)
-        draggable_wpawn7 = DraggablePiece(screen, "./images/200px-Chess_plt45.svg.png", Board.convert_x_y(6, 6), piece_width, piece_height)
+        draggable_wpawn7 = DraggablePiece(screen, "pwn", "Whites", "./images/200px-Chess_plt45.svg.png", Board.convert_x_y(6, 6), piece_width, piece_height)
         draggable_pieces.append(draggable_wpawn7)
-        draggable_wpawn8 = DraggablePiece(screen, "./images/200px-Chess_plt45.svg.png", Board.convert_x_y(7, 6), piece_width, piece_height)
+        draggable_wpawn8 = DraggablePiece(screen, "pwn", "Whites", "./images/200px-Chess_plt45.svg.png", Board.convert_x_y(7, 6), piece_width, piece_height)
         draggable_pieces.append(draggable_wpawn8)
         
-        draggable_bpawn1 = DraggablePiece(screen, "./images/200px-Chess_pdt45.svg.png", Board.convert_x_y(0, 1), piece_width, piece_height)
+        draggable_bpawn1 = DraggablePiece(screen, "pwn", "Blacks", "./images/200px-Chess_pdt45.svg.png", Board.convert_x_y(0, 1), piece_width, piece_height)
         self.blk_pwn_img = draggable_bpawn1.image
         draggable_pieces.append(draggable_bpawn1)
-        draggable_bpawn2 = DraggablePiece(screen, "./images/200px-Chess_pdt45.svg.png", Board.convert_x_y(1, 1), piece_width, piece_height)
+        draggable_bpawn2 = DraggablePiece(screen, "pwn", "Blacks", "./images/200px-Chess_pdt45.svg.png", Board.convert_x_y(1, 1), piece_width, piece_height)
         draggable_pieces.append(draggable_bpawn2)
-        draggable_bpawn3 = DraggablePiece(screen, "./images/200px-Chess_pdt45.svg.png", Board.convert_x_y(2, 1), piece_width, piece_height)
+        draggable_bpawn3 = DraggablePiece(screen, "pwn", "Blacks", "./images/200px-Chess_pdt45.svg.png", Board.convert_x_y(2, 1), piece_width, piece_height)
         draggable_pieces.append(draggable_bpawn3)
-        draggable_bpawn4 = DraggablePiece(screen, "./images/200px-Chess_pdt45.svg.png", Board.convert_x_y(3, 1), piece_width, piece_height)
+        draggable_bpawn4 = DraggablePiece(screen, "pwn", "Blacks", "./images/200px-Chess_pdt45.svg.png", Board.convert_x_y(3, 1), piece_width, piece_height)
         draggable_pieces.append(draggable_bpawn4)
-        draggable_bpawn5 = DraggablePiece(screen, "./images/200px-Chess_pdt45.svg.png", Board.convert_x_y(4, 1), piece_width, piece_height)
+        draggable_bpawn5 = DraggablePiece(screen, "pwn", "Blacks", "./images/200px-Chess_pdt45.svg.png", Board.convert_x_y(4, 1), piece_width, piece_height)
         draggable_pieces.append(draggable_bpawn5)
-        draggable_bpawn6 = DraggablePiece(screen, "./images/200px-Chess_pdt45.svg.png", Board.convert_x_y(5, 1), piece_width, piece_height)
+        draggable_bpawn6 = DraggablePiece(screen, "pwn", "Blacks", "./images/200px-Chess_pdt45.svg.png", Board.convert_x_y(5, 1), piece_width, piece_height)
         draggable_pieces.append(draggable_bpawn6)
-        draggable_bpawn7 = DraggablePiece(screen, "./images/200px-Chess_pdt45.svg.png", Board.convert_x_y(6, 1), piece_width, piece_height)
+        draggable_bpawn7 = DraggablePiece(screen, "pwn", "Blacks", "./images/200px-Chess_pdt45.svg.png", Board.convert_x_y(6, 1), piece_width, piece_height)
         draggable_pieces.append(draggable_bpawn7)
-        draggable_bpawn8 = DraggablePiece(screen, "./images/200px-Chess_pdt45.svg.png", Board.convert_x_y(7, 1), piece_width, piece_height)
+        draggable_bpawn8 = DraggablePiece(screen, "pwn", "Blacks", "./images/200px-Chess_pdt45.svg.png", Board.convert_x_y(7, 1), piece_width, piece_height)
         draggable_pieces.append(draggable_bpawn8)
         
         self.pieces = draggable_pieces
     
-    def treat_draggable_piece(self, draggable_piece, event):
+    def treat_draggable_piece(self, screen, draggable_piece, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             mx, my = event.pos
             if draggable_piece.x + piece_width >= mx and draggable_piece.y+piece_height >= my:
@@ -184,9 +184,15 @@ class Board():
 #                       positionLabel.setText(GameUtil.square(xcurs-offset, ycurs-offset));
             # Java import (end)
         elif event.type == pygame.MOUSEBUTTONUP:
+            mx, my = event.pos
             draggable_piece.xshiftbegin = -1
             draggable_piece.yshiftbegin = -1
             draggable_piece.click = False
+            
+            # Java import (begin) #
+            if self.game.state.player.ptype == "Human":
+                self.play_move(screen, mx, my)
+            # Java import (end) #
         elif event.type == pygame.QUIT:
             pygame.quit(); sys.exit()
     
@@ -286,7 +292,7 @@ class Board():
         if piece == None:
             return
         
-        next_state = state.State(game_state)
+        next_state = State(game_state)
 
         if pygame.mouse.get_focused() == 0 and current_player.ptype != "Artificial":
             self.selected_piece.x = GameTools.convertX(self.square1, self.p_size, self.offset)
@@ -328,7 +334,7 @@ class Board():
                                     self.pieces[k].selected = True
                                     n = k+1
                                     break
-                for k in range(32):
+                for k in range(n, 32):
                     if self.pieces[k] != None and self.pieces[k].selected == False:
                         self.pieces[k] = None
                     
@@ -373,7 +379,7 @@ class Board():
                                         self.pieces[k].selected = True
                                         n = k+1
                                         break
-                    for k in range(32):
+                    for k in range(n, 32):
                         if self.pieces[k] != None and self.pieces[k].selected == False:
                             self.pieces[k] = None
         
@@ -414,19 +420,18 @@ class Board():
     
     def paint(self, screen):
         # affichage de l'echiquier
-        g.drawImage(self.board, self.offset, self.offset, this)
+        screen.blit(self.board_image, (0, 0))
         
         # affichage des images des pieces
         for i in range(32):
             if self.pieces[i] != None:
                 if self.pieces[i].selected or self.begin:
-                    
-                    g.drawImage(self.pieces[i].image, self.pieces[i].x + self.xi, self.pieces[i].y + self.yi, self.p_size, self.p_size, this)
+                    screen.blit(self.pieces[i].image, (self.pieces[i].x + self.xi, self.pieces[i].y + self.yi))
                     
                     self.pieces[i].x = self.pieces[i].x + self.xi
                     self.pieces[i].y = self.pieces[i].y + self.yi
                 else:
-                    g.drawImage(self.pieces[i].image, self.pieces[i].x, self.pieces[i].y, self.p_size, self.p_size, this)
+                    screen.blit(self.pieces[i].image, (self.pieces[i].x, self.pieces[i].y))
 
     def change_image(self, pimage, piece):
         nom = piece.nom

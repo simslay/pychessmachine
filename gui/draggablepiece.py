@@ -10,7 +10,9 @@ import pygame
 class DraggablePiece:
     selected = None
     
-    def __init__(self, screen, path, xy, piece_width, piece_height):
+    def __init__(self, screen, nom, alliance, path, xy, piece_width, piece_height):
+        self.nom = nom
+        self.alliance = alliance
         self.path = path
         self.x, self.y = xy
         self.xshift = 0
@@ -26,8 +28,9 @@ class DraggablePiece:
         if self.click:
             mx, my = pygame.mouse.get_pos()
             screen.blit(board_image, [0, 0])
+            
             for draggable_piece in draggable_pieces:
-                if draggable_piece != self:
+                if draggable_piece != None and draggable_piece != self:
                     screen.blit(draggable_piece.image, [draggable_piece.x, draggable_piece.y])
             self.xshift, self.yshift = mx-self.x, my-self.y
             if self.xshiftbegin == -1 and self.yshiftbegin == -1:

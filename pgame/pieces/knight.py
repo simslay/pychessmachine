@@ -19,7 +19,7 @@ class Knight(Piece):
             self.nom = "knt"
     
     def init(self, p):
-        super(p)
+        super().init(p)
     
     def __repr__(self):
         return "N" if self.alliance == "Blacks" else "n"

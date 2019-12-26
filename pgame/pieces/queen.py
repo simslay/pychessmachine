@@ -21,7 +21,7 @@ class Queen(Piece):
             self.nom = "qun"
     
     def init(self, p):
-        super(p)
+        super().init(p)
     
     def __repr__(self):
         return "Q" if self.alliance == "Blacks" else "q"
@@ -37,11 +37,11 @@ class Queen(Piece):
         # commun a toutes les pieces (fin)
 
         bsp = Bishop(self.alliance)
-        bsp.x(self.x)
-        bsp.y(self.y)
+        bsp.x = self.x
+        bsp.y = self.y
         rk = Rook(self.alliance)
-        rk.x(self.x)
-        rk.y(self.y)
+        rk.x = self.x
+        rk.y = self.y
 
         return (bsp.is_valid_move(x1, y1, x2, y2, board, player, check) or
             rk.is_valid_move(x1, y1, x2, y2, board, player, check))

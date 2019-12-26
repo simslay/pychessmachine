@@ -37,7 +37,7 @@ class Game():
         
         piece = board[y1][x1]
         
-        if piece != None and (piece.is_valid_move(x1, y1, x2, y2, board, current_player, state.checked) or
+        if piece != None and (piece.is_valid_move(x1, y1, x2, y2, board, current_player, state.check) or
 			(state.player.ptype == "Artificial" and piece.promoted)):
             # enlevement de la piece
             board[y1][x1] = None
@@ -73,14 +73,14 @@ class Game():
                                 break
             elif board[y2][x2] != None:
                 state.add_capture(board[y2][x2])
-                if currentPlayer.alliance == "Whites":
+                if current_player.alliance == "Whites":
                     for i in range(16):
                         if blacks[i] != None and hash(blacks[i]) == hash(board[y2][x2]):
                             blacks[i] = None
                             break
                 elif current_player.alliance == "Blacks":
                     for i in range(16):
-                        if whites[i] != None and hash(whites[i]) == hash(board[y2][x2].hashCode):
+                        if whites[i] != None and hash(whites[i]) == hash(board[y2][x2]):
                             whites[i] = None
                             break
 						
@@ -90,7 +90,7 @@ class Game():
                 for i in range(16):
                     if whites[i] != None and whites[i].promoted:
                         whites[i].promoted = False
-                    if blacks[i] != null and blacks[i].promoted:
+                    if blacks[i] != None and blacks[i].promoted:
                         blacks[i].promoted = False
 
             if (not test and piece.nom == "pwn" and
@@ -109,13 +109,13 @@ class Game():
                 if self.selected_value == None:
                     return False
 				
-                if selectedValue == 0:
+                if self.selected_value == 0:
                     board[y2][x2] = Queen("Whites")
-                elif selected_value == 1:
+                elif self.selected_value == 1:
                     board[y2][x2] = Rook("Whites")
-                elif selected_value == 2:
+                elif self.selected_value == 2:
                     board[y2][x2] = Bishop("Whites")
-                elif selected_value == 3:
+                elif self.selected_value == 3:
                     board[y2][x2] = Knight("Whites")
 				
                 board[y2][x2].x = x2
@@ -142,13 +142,13 @@ class Game():
                 if self.selected_value == None:
                     return False
 				
-                if selectedValue == 0:
+                if self.selected_value == 0:
                     board[y2][x2] = Queen("Blacks")
-                elif selected_value == 1:
+                elif self.selected_value == 1:
                     board[y2][x2] = Rook("Blacks")
-                elif selected_value == 2:
+                elif self.selected_value == 2:
                     board[y2][x2] = Bishop("Blacks")
-                elif selected_value == 3:
+                elif self.selected_value == 3:
                     board[y2][x2] = Knight("Blacks")
 
                 board[y2][x2].x = x2

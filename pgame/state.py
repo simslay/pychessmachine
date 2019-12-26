@@ -33,14 +33,16 @@ class State():
         if foundOneArg and isinstance(theOnlyArg, State):      
             self.init(theOnlyArg)
         else:
-            self.board = [[Rook("Blacks"), Knight("Blacks"), Bishop("Blacks"), Queen("Blacks"), King("Blacks"), Bishop("Blacks"), Knight("Blacks"), Rook("Blacks")],
+            self.wking = King("Whites")
+            self.bking = King("Blacks")
+            self.board = [[Rook("Blacks"), Knight("Blacks"), Bishop("Blacks"), Queen("Blacks"), self.bking, Bishop("Blacks"), Knight("Blacks"), Rook("Blacks")],
                           [Pawn("Blacks"), Pawn("Blacks"), Pawn("Blacks"), Pawn("Blacks"), Pawn("Blacks"), Pawn("Blacks"), Pawn("Blacks"), Pawn("Blacks")],
                           [None, None, None, None, None, None, None, None],
                           [None, None, None, None, None, None, None, None],
                           [None, None, None, None, None, None, None, None],
                           [None, None, None, None, None, None, None, None],
                           [Pawn("Whites"), Pawn("Whites"), Pawn("Whites"), Pawn("Whites"), Pawn("Whites"), Pawn("Whites"), Pawn("Whites"), Pawn("Whites")],
-                          [Rook("Whites"), Knight("Whites"), Bishop("Whites"), Queen("Whites"), King("Whites"), Bishop("Whites"), Knight("Whites"), Rook("Whites")]]
+                          [Rook("Whites"), Knight("Whites"), Bishop("Whites"), Queen("Whites"), self.wking, Bishop("Whites"), Knight("Whites"), Rook("Whites")]]
             
             self.white_pieces = [self.board[7][0], self.board[7][1], self.board[7][2], self.board[7][3],
                              self.board[7][4], self.board[7][5], self.board[7][6], self.board[7][7],
@@ -57,13 +59,16 @@ class State():
                     if self.board[x][y] != None:
                         self.board[x][y].x = x
                         self.board[x][y].y = y
+            
+            self.review = []
     
     # constructeur par recopie
     def init(self, state):
         self.bking = King(state.bking)
         self.wking = King(state.wking)
 
-        self.black_pieces = []
+        self.black_pieces = [None, None, None, None, None, None, None, None,
+                             None, None, None, None, None, None, None, None]
         for i in range(16):
             if state.black_pieces[i] != None:
                 if isinstance(state.black_pieces[i], Pawn):
@@ -73,17 +78,18 @@ class State():
                 elif isinstance(state.black_pieces[i], Knight):
                     self.black_pieces[i] = Knight(state.black_pieces[i])
                 elif isinstance(state.black_pieces[i], Bishop):
-                    self.black_pieces[i] = Bishop(state.black[i])
+                    self.black_pieces[i] = Bishop(state.black_pieces[i])
                 elif isinstance(state.black_pieces[i], Queen):
-                    self.black_pieces[i] = Queen(state.black[i])
+                    self.black_pieces[i] = Queen(state.black_pieces[i])
                 elif isinstance(state.black_pieces[i], King):
                     self.black_pieces[i] = self.bking;
             else:
-                self.black_piececs[i] = None
+                self.black_pieces[i] = None
 
-        self.white_pieces = []
+        self.white_pieces = [None, None, None, None, None, None, None, None,
+                             None, None, None, None, None, None, None, None]
         for i in range(16):
-            if state.white[i] != None:
+            if state.white_pieces[i] != None:
                 if isinstance(state.white_pieces[i], Pawn):
                     self.white_pieces[i] = Pawn(state.white_pieces[i])
                 elif isinstance(state.white_pieces[i], Rook):
@@ -99,7 +105,14 @@ class State():
             else:
                 self.white_pieces[i] = None
 		
-        self.board = []
+        self.board = [[None, None, None, None, None, None, None, None],
+                      [None, None, None, None, None, None, None, None],
+                      [None, None, None, None, None, None, None, None],
+                      [None, None, None, None, None, None, None, None],
+                      [None, None, None, None, None, None, None, None],
+                      [None, None, None, None, None, None, None, None],
+                      [None, None, None, None, None, None, None, None],
+                      [None, None, None, None, None, None, None, None]]
         for i in range(8):
             for j in range(8):
                 if state.board[i][j] != None:
@@ -158,10 +171,11 @@ class State():
 		
         self.move = state.move
 
-        review = []
+        self.review = []
 
-        for i in range(len(state.review)):
-            review.append(state.review[i])
+        if state.review != None:
+            for i in range(len(state.review)):
+                self.review.append(state.review[i])
 
         self.check = state.check
     
