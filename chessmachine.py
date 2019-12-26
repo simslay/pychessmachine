@@ -26,7 +26,6 @@ def main(screen, draggable_pieces):
         if draggable_piece != None:
             draggable_piece.update(screen, draggable_pieces, board_image)
 
-
 if __name__ == "__main__":
     os.environ['SDL_VIDEO_CENTERED'] = '1'
     pygame.init()

@@ -168,6 +168,7 @@ class Board():
             # Java import (begin) #
             if (self.game.state.player.ptype == "Artificial"):
                 return
+            
             self.begin = False
             self.xcurs = mx
             self.ycurs = my
@@ -394,7 +395,7 @@ class Board():
             if piece.alliance == current_player.alliance and not self.end_of_game:
                 print("Move is not valid")
             elif not self.end_of_game:
-                print("This is not " + player + "'s turn")
+                print("This is not " + player + " turn")
     
             self.selected_piece.selected = False
             self.selected_piece.x = GameTools.convert_x(self.square1, self.p_size, self.offset)

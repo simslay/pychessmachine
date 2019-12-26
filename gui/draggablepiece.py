@@ -7,9 +7,7 @@ Created on Mon Dec 23 11:06:05 2019
 
 import pygame
 
-class DraggablePiece:
-    selected = None
-    
+class DraggablePiece:    
     def __init__(self, screen, nom, alliance, path, xy, piece_width, piece_height):
         self.nom = nom
         self.alliance = alliance
@@ -20,12 +18,13 @@ class DraggablePiece:
         self.xshiftbegin = -1
         self.yshiftbegin = -1
         self.click = False
+        self.selected = False
         self.image = pygame.image.load(self.path)
         self.image = pygame.transform.scale(self.image, (piece_width, piece_height))
         screen.blit(self.image, (self.x, self.y))
 
     def update(self, screen, draggable_pieces, board_image):
-        if self.click:
+        if self.click:            
             mx, my = pygame.mouse.get_pos()
             screen.blit(board_image, [0, 0])
             
