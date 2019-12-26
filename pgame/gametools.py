@@ -14,6 +14,7 @@ from pgame.pieces.king import King
 import pgame.state
 
 class GameTools:
+    message = ""
     def __init__(self):
         pass
     
@@ -81,10 +82,10 @@ class GameTools:
     
     @staticmethod
     def white_is_stalemate(game):
-        state = game.state
+        game_state = game.state
         state_copy = None
-        player = state.player
-        white_pieces = state.white_pieces
+        player = game_state.player
+        white_pieces = game_state.white_pieces
         piece = None
         valid_moves = None
         move = None
@@ -101,7 +102,7 @@ class GameTools:
                 for j in range(len(valid_moves)):
                     move = valid_moves[j]
 
-                    state_copy = state.State(state)
+                    state_copy = state.State(game_state)
                     
                     if state_copy == None:
                         return False
@@ -110,16 +111,17 @@ class GameTools:
                     if not GameTools.white_is_check(game, state_copy, state_copy.wking.x, state_copy.wking.y):
                         return False
 
-        print("White is stalemated!")
+        GameTools.message = "White is stalemated!"
+        print(GameTools.message)
         
         return True
     
     @staticmethod
     def black_is_stalemate(game):
-        state = game.state
+        game_state = game.state
         state_copy = None
-        player = state.player
-        black_pieces = state.black_pieces
+        player = game_state.player
+        black_pieces = game_state.black_pieces
         piece = None
         valid_moves = None
         move = None
@@ -135,7 +137,7 @@ class GameTools:
                 
                 for j in range(len(valid_moves)):
                     move = valid_moves[j]
-                    state_copy = state.State(state)
+                    state_copy = state.State(game_state)
                     
                     if state_copy == None:
                         return False
@@ -145,7 +147,8 @@ class GameTools:
                     if not GameTools.black_is_check(game, state_copy, state_copy.bking.x, state_copy.bking.y):
                         return False
         
-        print("Black is stalemated!")
+        GameTools.message = "Black is stalemated!"
+        print(GameTools.message)
         
         return True
 
@@ -191,7 +194,8 @@ class GameTools:
 
         if game.state.player.alliance == "Blakcs":
             if GameTools.white_is_check(game, state_copy, x, y):
-                print("White will be check!")
+                GameTools.message = "White will be check!"
+                print(GameTools.message)
                 state.player = GameTools.change_player(state.player, game)
                 return True
             return False
@@ -215,10 +219,12 @@ class GameTools:
                     game.verify_and_play_move(state_copy, move[0][0], move[0][1], move[1][0], move [1][1], True)
 
                     if not GameTools.white_is_check(game, state_copy, state_copy.wking.x, state_copy.wking.y):
-                        print("Check!")
+                        GameTools.message = "Check!"
+                        print(GameTools.message)
                         state.check = True
                         return False
-            print("Checkmate! Black wins")
+            GameTools.message = "Checkmate! Black wins"
+            print(GameTools.message)
             return True
 
         return False
@@ -238,7 +244,8 @@ class GameTools:
 
         if game.state.player.alliance == "Whites":
             if GameTools.black_is_check(game, state_copy, x, y):
-                print("Black will be check!")
+                GameTools.message = "Black will be check!"
+                print(GameTools.message)
                 state.player = GameTools.change_player(state.player, game)
                 return True
             return False
@@ -261,9 +268,11 @@ class GameTools:
                     game.verify_and_play_move(state_copy, move[0][0], move[0][1], move[1][0], move [1][1], True)
 
                     if not GameTools.black_is_check(game, state_copy, state_copy.bking.x, state_copy.bking.y):
-                        print("Check!")
+                        GameTools.message = "Check!"
+                        print(GameTools.message)
                         state.check = True
                         return False
-            print("Checkmate! White wins")
+            GameTools.message = "Checkmate! White wins"
+            print(GameTools.message)
             return True
         return False

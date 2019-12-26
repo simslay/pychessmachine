@@ -10,3 +10,4 @@ from pgame.players.player import Player
 class Blacks(Player):
     def __init__(self):
         self.alliance = "Blacks"
+        self.ptype = "Human"

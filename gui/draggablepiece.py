@@ -26,7 +26,7 @@ class DraggablePiece:
         if self.click:
             mx, my = pygame.mouse.get_pos()
             screen.blit(board_image, [0, 0])
-            for draggable_piece in draggable_pieces.values():
+            for draggable_piece in draggable_pieces:
                 if draggable_piece != self:
                     screen.blit(draggable_piece.image, [draggable_piece.x, draggable_piece.y])
             self.xshift, self.yshift = mx-self.x, my-self.y

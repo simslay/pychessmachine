@@ -6,7 +6,7 @@ piece_width = 80
 piece_height = 80
 window_width = 640
 window_height = 640
-draggable_pieces = {}
+draggable_pieces = []
 pygame.init()
 screen = pygame.display.set_mode((window_width, window_height))
 board_image = pygame.image.load("./images/board01.png")
@@ -14,16 +14,16 @@ board_image = pygame.transform.scale(board_image, (window_width, window_height))
 screen.blit(board_image, [0, 0])
 pygame.display.set_caption("Chessmachine")
 clock = pygame.time.Clock()
+gui_board = None
 
 def main(screen, draggable_pieces):
-    game_event_loop(draggable_pieces)
-    for draggable_piece in draggable_pieces.values():
-        draggable_piece.update(screen, draggable_pieces, board_image)
-
-def game_event_loop(draggable_pieces):
     for event in pygame.event.get():
-        for draggable_piece in draggable_pieces.values():
-            Board.treat_draggable_piece(draggable_piece, event)
+        for i in range(32):
+            draggable_piece = draggable_pieces[i]
+            gui_board.treat_draggable_piece(draggable_piece, event)
+
+    for draggable_piece in draggable_pieces:
+        draggable_piece.update(screen, draggable_pieces, board_image)
 
 
 if __name__ == "__main__":
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     pygame.init()
     clock = pygame.time.Clock()
     
-    gui_board = Board(screen)
+    gui_board = Board(screen, board_image)
     gui_board.game.state.printBoard()
     state_board = gui_board.game.state.board
     

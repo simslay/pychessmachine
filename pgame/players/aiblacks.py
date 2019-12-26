@@ -20,6 +20,7 @@ class AIBlacks(Player):
     
     def __init__(self):
         self.alliance = "Blacks"
+        self.ptype = "Artificial"
     
     def enter_move(self, game, check):
         state = game.state
