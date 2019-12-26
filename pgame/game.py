@@ -8,6 +8,8 @@ Created on Sun Dec 22 21:09:10 2019
 from pgame.state import State
 from pgame.players.whites import Whites
 from pgame.players.blacks import Blacks
+from pgame.players.aiwhites import AIWhites
+from pgame.players.aiblacks import AIBlacks
 from pgame.pieces.queen import Queen
 from pgame.pieces.rook import Rook
 from pgame.pieces.bishop import Bishop
@@ -22,10 +24,11 @@ class Game():
     selected_value = None
     listbox = None
     
-    def __init__(self):
+    def __init__(self, wtype, btype):
         self.state = State()
-        self.whites_player = Whites()
-        self.blacks_player = Blacks()
+        
+        self.whites_player = Whites() if wtype == "Human" else AIWhites()
+        self.blacks_player = Blacks() if btype == "Human" else AIBlacks()
 
         self.state.player = self.whites_player
         

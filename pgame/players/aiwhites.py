@@ -30,7 +30,7 @@ class AIWhites(Player):
 		
         if self.mode == "Horizon1":
             nodes = None
-            nodes = horizon1.Horizon1.expand_eval(game, check, node)
+            nodes = pgame.ai.horizon1.Horizon1.expand_eval(game, check, node)
             
             return AITools.search_optimal_move(nodes)
         elif self.mode == "AlphaBeta":

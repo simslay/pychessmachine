@@ -14,7 +14,7 @@ from pgame.ai.alphabeta import AlphaBeta
 import random
 
 class AIBlacks(Player):
-    feval = Fevals.w_feval
+    feval = Fevals.b_alea
     mode = "Horizon1"
     PMAX = 2
     
@@ -25,14 +25,49 @@ class AIBlacks(Player):
     def enter_move(self, game, check):
         state = game.state
         node = None
-		
+        
         node = Node(state, ((None, None), (None, None)), 0, 0)
-		
+        
         if self.mode == "Horizon1":
             nodes = None
-            nodes = horizon1.Horizon1.expand_eval(game, check, node)
+            nodes = pgame.ai.horizon1.Horizon1.expand_eval(game, check, node)
             
             return AITools.search_optimal_move(nodes) # node.action ((x1, y1), (x2, y2))
         elif self.mode == "AlphaBeta":
             return AlphaBeta.alpha_beta_search(game, node, self.feval, self.PMAX)
         return None
+
+    # fonction d'evaluation
+    @staticmethod
+    def feval(game, state, board):
+        res = 0.
+        rand = random.random()/10
+        
+        if AIBlacks.feval == Fevals.b_feval:
+            weights = [4, 5, 10, 5, 4]
+            #weights = {1, 0, 10, 0, 1}
+            #weights = {0, 0, 10, 0, 0}
+
+#            fevals = [fevalOwnCaptures(state),
+#                                fevalOpponentCaptures(state),
+#                                fevalCheckmate(game, state),
+#                                fevalStalemate(game, state),
+#                                fevalPromotion(state)]
+#
+#            for i in range(len(weights)):
+#                res += weights[i] * fevals[i]
+
+            return res + rand;
+        elif AIBlacks.feval == Fevals.b_alea:
+            return AIBlacks.feval_alea()
+#        case bCaptures :
+#            return fevalOwnCaptures(state) + rand
+#        case bCheckmate :
+#            return fevalCheckmate(game, state) + rand
+#        default :
+#            return fevalAlea()
+
+    # fonction d'evaluation aleatoire
+    @staticmethod
+    def feval_alea():
+        return random.random()

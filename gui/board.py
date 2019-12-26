@@ -52,8 +52,8 @@ class Board():
     yi = None
     board_image = None
     
-    def __init__(self, screen, board_image):
-        self.game = Game()
+    def __init__(self, screen, board_image, wtype, btype):
+        self.game = Game(wtype, btype)
         self.end_of_game = False
         self.init(screen)
         self.xi = 0
@@ -198,7 +198,6 @@ class Board():
             pygame.quit(); sys.exit()
     
     def play(self, screen):
-        print("play()")
         state = self.game.state
         player = state.player
         board = state.board
@@ -417,7 +416,7 @@ class Board():
         if (next_state.player.ptype == "Artificial" and
             p.ptype == "Human" and
             not self.end_of_game):
-            self.play()
+            self.play(screen)
     
     def paint(self, screen):
         # affichage de l'echiquier

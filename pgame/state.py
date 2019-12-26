@@ -144,15 +144,15 @@ class State():
             if isinstance(state.white_captures[i], Pawn):
                 self.white_captures.append(Pawn(state.white_captures[i]))
             elif isinstance(state.white_captures[i], Rook):
-                self.white_captures.append(Rook(state.whites_captures[i]))
+                self.white_captures.append(Rook(state.white_captures[i]))
             elif isinstance(state.white_captures[i], Knight):
-                self.white_captures.append(Knight(state.whites_captures[i]))
+                self.white_captures.append(Knight(state.white_captures[i]))
             elif isinstance(state.white_captures[i], Bishop):
-                self.white_captures.append(Bishop(state.whites_captures[i]))
+                self.white_captures.append(Bishop(state.white_captures[i]))
             elif isinstance(state.white_captures[i], Queen):
-                self.white_captures.append(Queen(state.whites_captures[i]))
+                self.white_captures.append(Queen(state.white_captures[i]))
             elif isinstance(state.white_captures[i], King):
-                self.white_captures.append(King(state.whites_captures[i]))
+                self.white_captures.append(King(state.white_captures[i]))
 
         self.black_captures = []
         for i in range(len(state.black_captures)):

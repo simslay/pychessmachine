@@ -35,7 +35,7 @@ class Horizon1():
                 for j in range(len(valid_moves)):
                     move = valid_moves[j]
 
-                    state_copy = state.State(state)
+                    state_copy = pgame.state.State(state)
 
                     if game.verify_and_play_move(state_copy, move[0][0], move[0][1], move[1][0], move[1][1], True):
                         game.state = state_copy
@@ -89,15 +89,15 @@ class Horizon1():
 
         if successors != None and len(successors) != 0:
             for i in range(len(successors)):
-                new_state = successors[i].state
+                new_state = successors[i][0]
                 game.state = new_state
 
                 if state.player.alliance == "Whites":
-                    f = aiwhites.AIWhites.feval(game, new_state, new_state.board)
+                    f = pgame.players.aiwhites.AIWhites.feval(game, new_state, new_state.board)
                 elif state.player.alliance == "Blacks":
-                    f = aiblacks.AIBlacks.feval(game, new_state, new_state.board)
+                    f = pgame.players.aiblacks.AIBlacks.feval(game, new_state, new_state.board)
 
-                move = successors[i].move
+                move = successors[i][1]
                 nodes.append(Node(new_state, move, f, n.depth+1))
 
         game.state = game_state
