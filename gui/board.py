@@ -267,6 +267,7 @@ class Board():
         self.play_move(screen, GameTools.convert_x(sq2, self.p_size, self.offset), GameTools.convert_y(sq2, self.p_size, self.offset))
         
     def play_move(self, screen, x, y):
+        #print("play_move(" + str(x) + ", " + str(y) + ")")
         if self.game.state.player.ptype == "Artificial" and not self.move_entered:
             return
         else:
@@ -282,12 +283,15 @@ class Board():
         next_state = None
         self.xcurs = x
         self.ycurs = y
-        y1 = abs(int(""+self.square1[1])-8)
+        y1 = abs(int(self.square1[1])-8)
         x1 = ord(self.square1[0])-ord('a')
         y2 = None
         x2 = None
         current_player = self.game.state.player
         piece = self.game.state.board[y1][x1]
+        
+        print("play_move() : x1=" + str(x1) + ", y1=" + str(y1))
+        print("play_move() : piece = " + str(piece))
 
         if piece == None:
             return

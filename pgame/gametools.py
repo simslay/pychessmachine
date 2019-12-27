@@ -76,8 +76,13 @@ class GameTools:
         for i in range(8):
             for j in range(8):
                 if p.is_valid_move(square1[0], square1[1], i, j, board, player, check):
-                    list.append((square1, (i, j)));
+                    list.append((square1, (i, j)))
 
+#        print("valid_moves() --->")
+#        print("valid_moves() : p = " + str(p))
+#        for move in list:
+#            print("valid_moves() : move = " + str(move))
+#        print("valid_moves() <---")
         return list
     
     @staticmethod
@@ -239,6 +244,8 @@ class GameTools:
         black_pieces = state.black_pieces
         valid_moves = None
         move = None
+        
+        #print("black_is_checkmate() : bking.x=" + str(bking.x) + ", bking.y=" + str(bking.y))
 
         state_copy = pgame.state.State(state)
 
@@ -265,14 +272,26 @@ class GameTools:
                     if state_copy == None:
                         return False
 
-                    game.verify_and_play_move(state_copy, move[0][0], move[0][1], move[1][0], move [1][1], True)
+                    game.verify_and_play_move(state_copy, move[0][0], move[0][1], move[1][0], move[1][1], True)
 
                     if not GameTools.black_is_check(game, state_copy, state_copy.bking.x, state_copy.bking.y):
                         GameTools.message = "Check!"
                         print(GameTools.message)
                         state.check = True
+                        
                         return False
+
+            #state_copy.printBoard()
+            print("black_is_checkmate() : move = " + str(move))
             GameTools.message = "Checkmate! White wins"
             print(GameTools.message)
+            
             return True
         return False
+
+    @staticmethod
+    def change_player(player, game):
+        if player.alliance == "Whites":
+            return game.blacks_player
+        elif player.alliance == "Blacks":
+            return game.whites_player

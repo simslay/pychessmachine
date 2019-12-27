@@ -12,6 +12,7 @@ from pgame.ai.aitools import AITools
 import pgame.ai.horizon1
 from pgame.ai.alphabeta import AlphaBeta
 import random
+from datetime import datetime
 
 class AIBlacks(Player):
     feval_name = Fevals.b_alea
@@ -70,4 +71,5 @@ class AIBlacks(Player):
     # fonction d'evaluation aleatoire
     @staticmethod
     def feval_alea():
+        random.seed(datetime.now())
         return random.random()

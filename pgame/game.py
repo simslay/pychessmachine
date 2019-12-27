@@ -14,6 +14,7 @@ from pgame.pieces.queen import Queen
 from pgame.pieces.rook import Rook
 from pgame.pieces.bishop import Bishop
 from pgame.pieces.knight import Knight
+from pgame.gametools import GameTools
 import tkinter as tk
 from tkinter.constants import END
 
@@ -192,7 +193,7 @@ class Game():
                             board[y2][5].castling_poss = False									
 
             # changement du joueur
-            state.player = self.change_player(current_player)
+            state.player = GameTools.change_player(current_player, self)
 
             # check
             if state.check:
@@ -204,9 +205,3 @@ class Game():
     
     def select(self, event):
         self.selected_value = self.listbox.curselection()[0]
-    
-    def change_player(self, player):
-        if player.alliance == "Whites":
-            return self.blacks_player
-        elif player.alliance == "Blacks":
-            return self.whites_player

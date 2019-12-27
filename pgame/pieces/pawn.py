@@ -41,8 +41,8 @@ class Pawn(Piece):
                 # premier coup du pion de deux cases en avant
                 if y1 == 6 and y2-y1 == -2:
                     if board[y1-1][x1] == None:
-                        en_passant_risk = True
-                        
+                        self.en_passant_risk = True
+
                         return True
                     else:
                         return False
@@ -53,7 +53,7 @@ class Pawn(Piece):
             # mouvement en diagonale
             if ((x2 == x1+1 or x2 == x1-1) and y2 == y1-1 and
                 ((board[y2][x2] != None and board[y2][x2].alliance == "Blacks") or
-                 (y1 == 3 and board[y1][x2]!=null and board[y1][x2].nom == "pwn" and
+                 (y1 == 3 and board[y1][x2] != None and board[y1][x2].nom == "pwn" and
                   board[y1][x2].en_passant_risk) ) ):
                 return True
 			
@@ -65,7 +65,7 @@ class Pawn(Piece):
                 # premier coup du pion de deux cases en avant
                 if y1 == 1 and y2-y1 == 2:
                     if board[y1+1][x1] == None:
-                        en_passant_risk = True
+                        self.en_passant_risk = True
                         return True
                     else:
                         return False
@@ -75,7 +75,7 @@ class Pawn(Piece):
 
             if ((x2 == x1+1 or x2 == x1-1) and y2 == y1+1 and
                 ((board[y2][x2] != None and board[y2][x2].alliance == "Whites") or
-                 (y1 == 4 and board[y1][x2] != None and board[y1][x2].nom.equals("pwn") and
+                 (y1 == 4 and board[y1][x2] != None and board[y1][x2].nom == "pwn" and
                   board[y1][x2].en_passant_risk) ) ):
                 return True
 
