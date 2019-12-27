@@ -14,7 +14,7 @@ from pgame.ai.alphabeta import AlphaBeta
 import random
 
 class AIBlacks(Player):
-    feval = Fevals.b_alea
+    feval_name = Fevals.b_alea
     mode = "Horizon1"
     PMAX = 2
     
@@ -43,7 +43,7 @@ class AIBlacks(Player):
         res = 0.
         rand = random.random()/10
         
-        if AIBlacks.feval == Fevals.b_feval:
+        if AIBlacks.feval_name.name == 'b_feval':
             weights = [4, 5, 10, 5, 4]
             #weights = {1, 0, 10, 0, 1}
             #weights = {0, 0, 10, 0, 0}
@@ -58,7 +58,7 @@ class AIBlacks(Player):
 #                res += weights[i] * fevals[i]
 
             return res + rand;
-        elif AIBlacks.feval == Fevals.b_alea:
+        elif AIBlacks.feval_name.name == 'b_alea':
             return AIBlacks.feval_alea()
 #        case bCaptures :
 #            return fevalOwnCaptures(state) + rand

@@ -264,7 +264,7 @@ class Board():
             if i+1 == 32:
                 return
 
-        self.play_move(GameTools.convert_x(sq2, self.p_size, self.offset), GameTools.convert_y(sq2, self.p_size, self.offset))
+        self.play_move(screen, GameTools.convert_x(sq2, self.p_size, self.offset), GameTools.convert_y(sq2, self.p_size, self.offset))
         
     def play_move(self, screen, x, y):
         if self.game.state.player.ptype == "Artificial" and not self.move_entered:
