@@ -31,8 +31,8 @@ if __name__ == "__main__":
     pygame.init()
     clock = pygame.time.Clock()
     
-    gui_board = Board(screen, board_image, "Human", "Human")
-    gui_board.game.state.printBoard()
+    gui_board = Board(screen, board_image, "Human", "Artificial")
+    #gui_board.game.state.printBoard()
     state_board = gui_board.game.state.board
     
     while 1:

@@ -57,8 +57,8 @@ class State():
             for x in range(8):
                 for y in range(8):
                     if self.board[x][y] != None:
-                        self.board[x][y].x = x
-                        self.board[x][y].y = y
+                        self.board[x][y].x = y
+                        self.board[x][y].y = x
             
             self.review = []
     

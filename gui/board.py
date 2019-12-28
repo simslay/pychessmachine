@@ -290,8 +290,8 @@ class Board():
         current_player = self.game.state.player
         piece = self.game.state.board[y1][x1]
         
-        print("play_move() : x1=" + str(x1) + ", y1=" + str(y1))
-        print("play_move() : piece = " + str(piece))
+#        print("play_move() : x1=" + str(x1) + ", y1=" + str(y1))
+#        print("play_move() : piece = " + str(piece))
 
         if piece == None:
             return
@@ -311,9 +311,10 @@ class Board():
         x2 = ord(self.square2[0]) - ord('a')
             
         if self.game.verify_and_play_move(next_state, x1, y1, x2, y2, False) and not self.end_of_game:
+#            print("play_move() : x1, y1 = " + str((x1, y1)))
+#            print("play_move() : x2, y2 = " + str((x2, y2)))
             self.game.state = next_state
             if not GameTools.is_end_of_game(self.game):
-                    
                 # placement de la piece
                 self.selected_piece.x = GameTools.convert_x(self.square2, self.p_size, self.offset)
                 self.selected_piece.y = GameTools.convert_y(self.square2, self.p_size, self.offset)
@@ -393,12 +394,12 @@ class Board():
             if not self.end_of_game:
                 self.game.state = next_state
     
-            player = "Whites" if piece.alliance == "Whites" else "Blacks"
+            player = "Whites" if piece.alliance == "White" else "Black"
     
             if piece.alliance == current_player.alliance and not self.end_of_game:
                 print("Move is not valid")
             elif not self.end_of_game:
-                print("This is not " + player + " turn")
+                print("This is not " + player + "'s turn")
     
             self.selected_piece.selected = False
             self.selected_piece.x = GameTools.convert_x(self.square1, self.p_size, self.offset)

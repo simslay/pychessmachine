@@ -79,7 +79,11 @@ class GameTools:
                     list.append((square1, (i, j)))
 
 #        print("valid_moves() --->")
+#        #game.state.printBoard()
+#        print("valid_moves() : player.alliance = " + player.alliance)
+#        print("valid_moves() : check = " + str(check))
 #        print("valid_moves() : p = " + str(p))
+#        print("valid_moves() : square1 = " + str(square1))
 #        for move in list:
 #            print("valid_moves() : move = " + str(move))
 #        print("valid_moves() <---")
@@ -168,18 +172,23 @@ class GameTools:
             if piece != None:
                 if piece.is_valid_move(piece.x, piece.y, x, y, board, game.blacks_player, False):
                     return True
+
         return False
     
     def black_is_check(game, state, x, y):
         board = state.board
         white_pieces = state.white_pieces
-        piece = None
+        white_piece = None
 
         for i in range(16):
-            piece = white_pieces[i]
+            white_piece = white_pieces[i]
 
-            if piece != None:
-                if piece.is_valid_move(piece.x, piece.y, x, y, board, game.whites_player, False):
+            if white_piece != None:
+                if white_piece.is_valid_move(white_piece.x, white_piece.y, x, y, board, game.whites_player, False):
+#                    print("black_is_check() -> white_piece.is_valid_move() == True")
+#                    print("black_is_check() : white_piece = " + str(white_piece))
+#                    print("black_is_check() : white_piece.x, white_piece.y = " + str((white_piece.x, white_piece.y)))
+#                    print("black_is_check() : x, y = ", str((x, y)))
                     return True
 
         return False
@@ -282,7 +291,6 @@ class GameTools:
                         return False
 
             #state_copy.printBoard()
-            print("black_is_checkmate() : move = " + str(move))
             GameTools.message = "Checkmate! White wins"
             print(GameTools.message)
             

@@ -43,6 +43,12 @@ class Game():
         
         if piece != None and (piece.is_valid_move(x1, y1, x2, y2, board, current_player, state.check) or
 			(state.player.ptype == "Artificial" and piece.promoted)):
+
+#            print("verify_and_play_move() player = " + current_player.alliance)
+#            print("verify_and_play_move() piece =  : " + str(piece))
+#            print("verify_and_play_move() x1, y1, x2, y2 =  : " + str((x1, y1, x2, y2)))
+#            print("verify_and_play_move() state.check =  : " + str(state.check))
+            
             # enlevement de la piece
             board[y1][x1] = None
             
