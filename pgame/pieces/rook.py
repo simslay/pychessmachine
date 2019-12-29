@@ -49,11 +49,11 @@ class Rook(Piece):
                 if board[y1][i] != None:
                     return False
         if x1 == x2 and y1 > y2:
-            for j in range(y2, y1-1, -1):
+            for j in range(y1-1, y2, -1):
                 if board[j][x1] != None:
                     return False
         if x1 > x2 and y1 == y2:
-            for i in range(x2, x1-1, -1):
+            for i in range(x1-1, x2, -1):
                 if board[y1][i] != None:
                     return False
 

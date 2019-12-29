@@ -345,8 +345,8 @@ class Board():
                     
                 self.game.state.review.append((self.square1, self.square2))
             else:
-                if (GameTools.message == "White will be check!" or
-                    GameTools.message == "Black will be check!"):
+                if (GameTools.message == "Whites will be check!" or
+                    GameTools.message == "Blacks will be check!"):
                     self.game.state = game_state
                     for i in range(32):
                         if self.pieces[i] != None and self.pieces[i].selected:
@@ -354,10 +354,10 @@ class Board():
                             self.pieces[i].x = GameTools.convert_x(self.square1, self.p_size, self.offset)
                             self.pieces[i].y = GameTools.convert_y(self.square1, self.p_size, self.offset)
                             break
-                elif (GameTools.message == "Checkmate! White wins" or
-                        GameTools.message == "Checkmate! Black wins" or
-                        GameTools.message == "White is stalemated!" or
-                        GameTools.message == "Black is stalemated!"):
+                elif (GameTools.message == "Checkmate! Whites win" or
+                        GameTools.message == "Checkmate! Blacks win" or
+                        GameTools.message == "Whites are stalemated!" or
+                        GameTools.message == "Blacks are stalemated!"):
                     self.end_of_game = True
                     self.imax = 0
                         
@@ -399,7 +399,7 @@ class Board():
             if piece.alliance == current_player.alliance and not self.end_of_game:
                 print("Move is not valid")
             elif not self.end_of_game:
-                print("This is not " + player + "'s turn")
+                print("This is not " + player + " turn")
     
             self.selected_piece.selected = False
             self.selected_piece.x = GameTools.convert_x(self.square1, self.p_size, self.offset)

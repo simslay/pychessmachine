@@ -120,7 +120,7 @@ class GameTools:
                     if not GameTools.white_is_check(game, state_copy, state_copy.wking.x, state_copy.wking.y):
                         return False
 
-        GameTools.message = "White is stalemated!"
+        GameTools.message = "Whites are stalemated!"
         print(GameTools.message)
         
         return True
@@ -156,7 +156,7 @@ class GameTools:
                     if not GameTools.black_is_check(game, state_copy, state_copy.bking.x, state_copy.bking.y):
                         return False
         
-        GameTools.message = "Black is stalemated!"
+        GameTools.message = "Blacks are stalemated!"
         print(GameTools.message)
         
         return True
@@ -208,7 +208,7 @@ class GameTools:
 
         if game.state.player.alliance == "Blacks":
             if GameTools.white_is_check(game, state_copy, x, y):
-                GameTools.message = "White will be check!"
+                GameTools.message = "Whites will be check!"
                 print(GameTools.message)
                 game_state.player = GameTools.change_player(game_state.player, game)
                 return True
@@ -237,7 +237,7 @@ class GameTools:
                         print(GameTools.message)
                         game_state.check = True
                         return False
-            GameTools.message = "Checkmate! Black wins"
+            GameTools.message = "Checkmate! Blacks win"
             print(GameTools.message)
             return True
 
@@ -260,7 +260,7 @@ class GameTools:
 
         if game.state.player.alliance == "Whites":
             if GameTools.black_is_check(game, state_copy, x, y):
-                GameTools.message = "Black will be check!"
+                GameTools.message = "Blacks will be check!"
                 print(GameTools.message)
                 state.player = GameTools.change_player(state.player, game)
                 return True
@@ -291,7 +291,7 @@ class GameTools:
                         return False
 
             #state_copy.printBoard()
-            GameTools.message = "Checkmate! White wins"
+            GameTools.message = "Checkmate! Whites win"
             print(GameTools.message)
             
             return True
