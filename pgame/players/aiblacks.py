@@ -18,7 +18,7 @@ from pgame.gametools import GameTools
 class AIBlacks(Player):
     feval_name = Fevals.b_feval
     mode = "AlphaBeta"
-    PMAX = 6
+    PMAX = 2
     
     def __init__(self):
         self.alliance = "Blacks"
