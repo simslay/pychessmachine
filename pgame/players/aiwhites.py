@@ -41,7 +41,7 @@ class AIWhites(Player):
     @staticmethod
     def feval(game, state, board):
         res = 0.
-        rand = random()/10
+        rand = random.random()/10
 		
         if AIWhites.feval == Fevals.w_feval:
             weights = [4, 5, 10, 5, 4]
@@ -69,4 +69,4 @@ class AIWhites(Player):
     # fonction d'evaluation aleatoire
     @staticmethod
     def feval_alea():
-        return random()
+        return random.random()

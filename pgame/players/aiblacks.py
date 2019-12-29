@@ -8,7 +8,7 @@ Created on Mon Dec 23 18:55:37 2019
 from pgame.players.player import Player
 from pgame.players.player import Fevals
 from pgame.ai.node import Node
-from pgame.ai.aitools import AITools
+import pgame.ai.aitools
 import pgame.ai.horizon1
 from pgame.ai.alphabeta import AlphaBeta
 import random
@@ -17,8 +17,8 @@ from pgame.gametools import GameTools
 
 class AIBlacks(Player):
     feval_name = Fevals.b_feval
-    mode = "Horizon1"
-    PMAX = 2
+    mode = "AlphaBeta"
+    PMAX = 6
     
     def __init__(self):
         self.alliance = "Blacks"
@@ -34,9 +34,10 @@ class AIBlacks(Player):
             nodes = None
             nodes = pgame.ai.horizon1.Horizon1.expand_eval(game, check, node)
             
-            return AITools.search_optimal_move(nodes) # node.action ((x1, y1), (x2, y2))
+            return pgame.ai.aitools.AITools.search_optimal_move(nodes) # node.action ((x1, y1), (x2, y2))
         elif self.mode == "AlphaBeta":
-            return AlphaBeta.alpha_beta_search(game, node, self.feval, self.PMAX)
+            return AlphaBeta.alpha_beta_search(game, node, self.feval_name, self.PMAX)
+
         return None
 
     # fonction d'evaluation
