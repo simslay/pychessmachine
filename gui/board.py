@@ -195,7 +195,7 @@ class Board():
                 self.play_move(screen, mx, my)
             # Java import (end) #
         elif event.type == pygame.QUIT:
-            pygame.quit(); sys.exit()
+            pygame.quit(); sys.exit(0)
     
     def play(self, screen):
         state = self.game.state
