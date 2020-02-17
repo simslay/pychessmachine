@@ -63,7 +63,7 @@ class AlphaBeta():
         if pgame.ai.aitools.AITools.is_end_of_exploration(game, n, PMAX):
             f = pgame.ai.aitools.AITools.eval(game, fev, game.state, game.state.board)
             nodes = []
-            print("n.getDepth " + str(n.depth) + " " + f)
+            print("n.depth " + str(n.depth) + " " + str(f))
             nodes.append(n)
             n.f = f
             return (f, nodes)

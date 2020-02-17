@@ -37,7 +37,7 @@ class AITools():
         
         for i in range(len(nodes)):
             if nodes[i].f == v:
-                print("searchMove: " + str(v))
+                print("search_move(): " + str(v))
                 
                 return nodes[i].action
 
